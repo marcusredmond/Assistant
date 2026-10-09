@@ -1,0 +1,92 @@
+{
+  "$schema": "https://example.org/eka/content-type.schema.json",
+  "contentType": {
+    "name": "Base Engineering Document",
+    "internalName": "BaseEngineeringDocument",
+    "id": "0x0101EKA000000000000000000000000001",
+    "group": "Engineering Knowledge Assistant",
+    "parentContentType": "Document",
+    "parentId": "0x0101",
+    "description": "Abstract base content type carrying the shared grounding and retrieval columns inherited by all EKA document content types. Mirrors information-architecture.md section 4.1.",
+    "sealed": false,
+    "columns": [
+      {
+        "name": "Title",
+        "internalName": "Title",
+        "type": "Text",
+        "required": true,
+        "termSet": null,
+        "description": "Human-readable title (standard SharePoint column)."
+      },
+      {
+        "name": "AssetType",
+        "internalName": "AssetType",
+        "type": "Managed Metadata",
+        "required": true,
+        "multiValue": false,
+        "termSet": "Asset Type",
+        "description": "Transmission vs distribution separation."
+      },
+      {
+        "name": "Discipline",
+        "internalName": "Discipline",
+        "type": "Managed Metadata",
+        "required": false,
+        "multiValue": false,
+        "termSet": "Discipline",
+        "description": "Discipline filtering."
+      },
+      {
+        "name": "Capability",
+        "internalName": "Capability",
+        "type": "Managed Metadata",
+        "required": false,
+        "multiValue": false,
+        "termSet": "Capability",
+        "description": "Routes and retrieves by capability area."
+      },
+      {
+        "name": "DocumentStatus",
+        "internalName": "DocumentStatus",
+        "type": "Managed Metadata",
+        "required": true,
+        "multiValue": false,
+        "termSet": "Document Status",
+        "description": "Review lifecycle (Draft / In Review / Approved / Superseded)."
+      },
+      {
+        "name": "StandardReference",
+        "internalName": "StandardReference",
+        "type": "Managed Metadata",
+        "required": false,
+        "multiValue": true,
+        "termSet": "Standard Reference",
+        "description": "Which standard(s) govern this document (reference label only)."
+      },
+      {
+        "name": "Revision",
+        "internalName": "Revision",
+        "type": "Text",
+        "required": false,
+        "termSet": null,
+        "description": "Document revision / year as stated by the source."
+      },
+      {
+        "name": "Project",
+        "internalName": "Project",
+        "type": "Text",
+        "required": false,
+        "termSet": null,
+        "description": "Project identifier for project-scoped filtering."
+      },
+      {
+        "name": "SourceCitation",
+        "internalName": "SourceCitation",
+        "type": "Note",
+        "required": false,
+        "termSet": null,
+        "description": "Canonical citation string the assistant surfaces (clause/section/revision ONLY when present in the source; never fabricated)."
+      }
+    ]
+  }
+}

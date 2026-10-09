@@ -1,0 +1,68 @@
+{
+  "$schema": "https://example.org/eka/content-type.schema.json",
+  "contentType": {
+    "name": "Generated Deliverable",
+    "internalName": "GeneratedDeliverable",
+    "id": "0x0101EKA000000000000000000000000003",
+    "group": "Engineering Knowledge Assistant",
+    "parentContentType": "Base Engineering Document",
+    "parentId": "0x0101EKA000000000000000000000000001",
+    "description": "Parent content type for generated outputs (technical queries, ITPs, commissioning procedures). Human-in-the-loop review target; carries the DRAFT marker until signed off. Subtypes inherit this type. Mirrors information-architecture.md section 4.5.",
+    "targetLibrary": "GeneratedDeliverables",
+    "inheritsBaseColumns": true,
+    "columnOverrides": [
+      {
+        "internalName": "DocumentStatus",
+        "required": true,
+        "defaultTerm": "Draft",
+        "description": "Defaults to Draft on generation."
+      }
+    ],
+    "columns": [
+      {
+        "name": "DeliverableType",
+        "internalName": "DeliverableType",
+        "type": "Choice",
+        "required": true,
+        "termSet": null,
+        "choices": ["technical-query", "itp", "commissioning-procedure"],
+        "allowFillIn": false,
+        "description": "Which generator produced the deliverable."
+      },
+      {
+        "name": "DraftMarker",
+        "internalName": "DraftMarker",
+        "type": "Text",
+        "required": true,
+        "termSet": null,
+        "defaultValue": "DRAFT — pending engineering review",
+        "description": "Must read 'DRAFT — pending engineering review' until the deliverable is approved."
+      },
+      {
+        "name": "GeneratedBy",
+        "internalName": "GeneratedBy",
+        "type": "Text",
+        "required": false,
+        "termSet": null,
+        "description": "Generator / module that produced it (tech-query, itp, commissioning)."
+      },
+      {
+        "name": "SourceDocuments",
+        "internalName": "SourceDocuments",
+        "type": "Hyperlink",
+        "required": false,
+        "multiValue": true,
+        "termSet": null,
+        "description": "Links to the grounding sources used (traceability)."
+      },
+      {
+        "name": "ReviewedBy",
+        "internalName": "ReviewedBy",
+        "type": "Person",
+        "required": false,
+        "termSet": null,
+        "description": "Qualified engineer who signed off."
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://example.org/eka/dataverse-table.schema.json",
+  "description": "Declarative, tenant-neutral Dataverse table design for the technical-query (TQ) register. Tracks each raised technical query, its grounded draft response, source citations, and review state. Supports the user capability 'generate technical queries'.",
+  "version": "0.1.0",
+  "status": "Draft",
+  "tables": [
+    {
+      "logicalName": "eka_technicalquery",
+      "displayName": "Technical Query",
+      "displayCollectionName": "Technical Queries",
+      "description": "One raised technical query and its drafted response.",
+      "primaryColumn": "eka_name",
+      "ownershipType": "UserOwned",
+      "columns": [
+        { "logicalName": "eka_name", "displayName": "TQ Number", "type": "Text", "maxLength": 100, "required": true, "description": "Technical query reference number (primary column)." },
+        { "logicalName": "eka_question", "displayName": "Question", "type": "Memo", "required": true, "description": "The engineering question raised." },
+        { "logicalName": "eka_response", "displayName": "Drafted Response", "type": "Memo", "required": false, "description": "Draft response grounded on cited sources (never generative-from-memory)." },
+        { "logicalName": "eka_project", "displayName": "Project", "type": "Text", "maxLength": 100, "required": false, "description": "Project the query relates to." },
+        { "logicalName": "eka_assettype", "displayName": "Asset Type", "type": "Choice", "required": true, "choices": ["Transmission", "Distribution", "Not asset-specific"], "description": "Keeps AS2885 (transmission) and AS4645 (distribution) distinct." },
+        { "logicalName": "eka_capability", "displayName": "Capability", "type": "Choice", "required": false, "choices": ["tech-query", "as2885", "as4645", "commissioning", "welding", "itp", "design-review", "construction", "risk-assessment"], "description": "Capability area the query touches." },
+        { "logicalName": "eka_sourcecitations", "displayName": "Source Citations", "type": "Memo", "required": false, "description": "Citations to the grounding source documents (traceability; clause/section only when present in source)." },
+        { "logicalName": "eka_status", "displayName": "Status", "type": "Choice", "required": true, "choices": ["Draft", "In Review", "Approved", "Superseded"], "defaultValue": "Draft", "description": "Review lifecycle; defaults to Draft." },
+        { "logicalName": "eka_raisedby", "displayName": "Raised By", "type": "Lookup", "targetTable": "systemuser", "required": false, "description": "Engineer who raised the query." },
+        { "logicalName": "eka_reviewedby", "displayName": "Reviewed By", "type": "Lookup", "targetTable": "systemuser", "required": false, "description": "Qualified engineer who signed off the response." }
+      ]
+    }
+  ],
+  "relationships": []
+}

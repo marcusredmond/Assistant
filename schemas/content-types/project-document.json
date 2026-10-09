@@ -1,0 +1,42 @@
+{
+  "$schema": "https://example.org/eka/content-type.schema.json",
+  "contentType": {
+    "name": "Project Document",
+    "internalName": "ProjectDocument",
+    "id": "0x0101EKA000000000000000000000000001A3",
+    "group": "Engineering Knowledge Assistant",
+    "parentContentType": "Base Engineering Document",
+    "parentId": "0x0101EKA000000000000000000000000001",
+    "description": "Project-specific document, including Inventor exports. Upload target for 'upload project documents'; receives Inventor bridge output (OQ-2). Mirrors information-architecture.md section 4.4.",
+    "targetLibrary": "ProjectDocuments",
+    "inheritsBaseColumns": true,
+    "columnOverrides": [
+      {
+        "internalName": "Project",
+        "required": true,
+        "description": "Project scoping (required for this content type)."
+      }
+    ],
+    "columns": [
+      {
+        "name": "DocumentKind",
+        "internalName": "DocumentKind",
+        "type": "Choice",
+        "required": false,
+        "termSet": null,
+        "choices": ["Drawing", "BOM", "Calculation", "Correspondence", "Inventor Export", "Other"],
+        "allowFillIn": true,
+        "description": "Type of project document."
+      },
+      {
+        "name": "InventorExport",
+        "internalName": "InventorExport",
+        "type": "Boolean",
+        "required": false,
+        "termSet": null,
+        "defaultValue": false,
+        "description": "Flags CAD-derived content from the Inventor bridge (OQ-2)."
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://example.org/eka/content-type.schema.json",
+  "contentType": {
+    "name": "Commissioning Procedure",
+    "internalName": "CommissioningProcedure",
+    "id": "0x0101EKA000000000000000000000000003B3",
+    "group": "Engineering Knowledge Assistant",
+    "parentContentType": "Generated Deliverable",
+    "parentId": "0x0101EKA000000000000000000000000003",
+    "description": "Generated commissioning procedure deliverable subtype. Inherits all Generated Deliverable columns (DocumentStatus defaults to Draft, DraftMarker 'DRAFT — pending engineering review'). Supports the user capability 'generate commissioning procedures'. Mirrors information-architecture.md section 4.5.",
+    "targetLibrary": "GeneratedDeliverables",
+    "inheritsBaseColumns": true,
+    "columnOverrides": [
+      {
+        "internalName": "DeliverableType",
+        "defaultValue": "commissioning-procedure",
+        "description": "Fixed to commissioning-procedure for this subtype."
+      }
+    ],
+    "columns": [
+      {
+        "name": "SystemUnderCommissioning",
+        "internalName": "SystemUnderCommissioning",
+        "type": "Text",
+        "required": false,
+        "termSet": null,
+        "description": "The system / package being commissioned."
+      },
+      {
+        "name": "PreCommissioningChecks",
+        "internalName": "PreCommissioningChecks",
+        "type": "Note",
+        "required": false,
+        "termSet": null,
+        "description": "Drafted pre-commissioning checks grounded on cited source procedures (never generative-from-memory)."
+      }
+    ]
+  }
+}

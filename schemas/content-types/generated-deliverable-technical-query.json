@@ -1,0 +1,39 @@
+{
+  "$schema": "https://example.org/eka/content-type.schema.json",
+  "contentType": {
+    "name": "Technical Query",
+    "internalName": "TechnicalQuery",
+    "id": "0x0101EKA000000000000000000000000003B1",
+    "group": "Engineering Knowledge Assistant",
+    "parentContentType": "Generated Deliverable",
+    "parentId": "0x0101EKA000000000000000000000000003",
+    "description": "Generated technical query (TQ) deliverable subtype. Inherits all Generated Deliverable columns (DocumentStatus defaults to Draft, DraftMarker 'DRAFT — pending engineering review'). Supports the user capability 'generate technical queries'. Mirrors information-architecture.md section 4.5.",
+    "targetLibrary": "GeneratedDeliverables",
+    "inheritsBaseColumns": true,
+    "columnOverrides": [
+      {
+        "internalName": "DeliverableType",
+        "defaultValue": "technical-query",
+        "description": "Fixed to technical-query for this subtype."
+      }
+    ],
+    "columns": [
+      {
+        "name": "QueryRaisedBy",
+        "internalName": "QueryRaisedBy",
+        "type": "Person",
+        "required": false,
+        "termSet": null,
+        "description": "Engineer who raised the query."
+      },
+      {
+        "name": "QueryResponse",
+        "internalName": "QueryResponse",
+        "type": "Note",
+        "required": false,
+        "termSet": null,
+        "description": "Drafted response grounded on cited source documents (never generative-from-memory)."
+      }
+    ]
+  }
+}

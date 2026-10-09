@@ -1,0 +1,30 @@
+{
+  "$schema": "https://example.org/eka/dataverse-table.schema.json",
+  "description": "Declarative, tenant-neutral Dataverse table design for the generation/audit trail. Captures every generation request across generators (technical query, ITP, commissioning procedure): what was requested, which template was used, which source documents grounded the output, resulting status, and reviewer. Provides traceability for the human-in-the-loop model.",
+  "version": "0.1.0",
+  "status": "Draft",
+  "tables": [
+    {
+      "logicalName": "eka_generationrequest",
+      "displayName": "Generation Request",
+      "displayCollectionName": "Generation Requests",
+      "description": "Audit record for one deliverable-generation request.",
+      "primaryColumn": "eka_name",
+      "ownershipType": "UserOwned",
+      "columns": [
+        { "logicalName": "eka_name", "displayName": "Request Reference", "type": "Text", "maxLength": 100, "required": true, "description": "Human-readable request reference (primary column)." },
+        { "logicalName": "eka_deliverabletype", "displayName": "Deliverable Type", "type": "Choice", "required": true, "choices": ["technical-query", "itp", "commissioning-procedure", "ingestion"], "description": "Which generator or pipeline wrote the audit record (ingestion is the document upload/grounding pipeline)." },
+        { "logicalName": "eka_requestedby", "displayName": "Requested By", "type": "Lookup", "targetTable": "systemuser", "required": false, "description": "User who requested generation." },
+        { "logicalName": "eka_requestedon", "displayName": "Requested On", "type": "DateTime", "required": true, "description": "Timestamp of the request." },
+        { "logicalName": "eka_requestinput", "displayName": "Request Input", "type": "Memo", "required": false, "description": "Prompt / parameters supplied to the generator." },
+        { "logicalName": "eka_templateused", "displayName": "Template Used", "type": "Text", "maxLength": 255, "required": false, "description": "Deliverable template that produced the output." },
+        { "logicalName": "eka_sourcecitations", "displayName": "Source Citations", "type": "Memo", "required": false, "description": "Grounding source documents / citations used (traceability)." },
+        { "logicalName": "eka_licencegatepassed", "displayName": "Licence Gate Passed", "type": "Boolean", "required": false, "defaultValue": false, "description": "Whether any standards-extract grounding passed the OQ-1 licensing gate (LicenceConfirmed)." },
+        { "logicalName": "eka_outputdocurl", "displayName": "Output Document URL", "type": "Url", "required": false, "description": "Link to the generated deliverable in SharePoint." },
+        { "logicalName": "eka_status", "displayName": "Status", "type": "Choice", "required": true, "choices": ["Draft", "In Review", "Approved", "Superseded", "Failed"], "defaultValue": "Draft", "description": "Outcome / review state of the request." },
+        { "logicalName": "eka_reviewedby", "displayName": "Reviewed By", "type": "Lookup", "targetTable": "systemuser", "required": false, "description": "Qualified engineer who reviewed the output." }
+      ]
+    }
+  ],
+  "relationships": []
+}

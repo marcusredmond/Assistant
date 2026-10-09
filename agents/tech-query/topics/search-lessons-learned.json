@@ -1,0 +1,78 @@
+{
+  "$schema": "https://example.org/eka/copilot-topic.schema.json",
+  "topic": {
+    "name": "search-lessons-learned",
+    "displayName": "Search historical lessons learned",
+    "capability": "tech-query",
+    "version": "0.1.0",
+    "status": "Draft",
+    "description": "Queries the LessonsLearned list/library and returns tagged results filtered by capability, asset type, project, and keywords. Preserves the AS2885 (transmission) vs AS4645 (distribution) distinction via AssetType on every result. Tenant-neutral declarative design.",
+    "triggerPhrases": [
+      "search lessons learned",
+      "have we seen this before",
+      "any lessons learned about",
+      "past lessons on",
+      "historical lessons",
+      "what did we learn on"
+    ],
+    "slots": [
+      {
+        "name": "keywords",
+        "displayName": "Keywords",
+        "type": "string",
+        "required": false,
+        "prompt": "What topic should I search lessons learned for?"
+      },
+      {
+        "name": "capability",
+        "displayName": "Capability",
+        "type": "choice",
+        "choices": ["tech-query", "as2885", "as4645", "commissioning", "welding", "itp", "design-review", "construction", "risk-assessment"],
+        "required": false,
+        "prompt": "Which capability area? (optional filter)"
+      },
+      {
+        "name": "assetType",
+        "displayName": "Asset type",
+        "type": "choice",
+        "choices": ["Transmission", "Distribution", "Not asset-specific"],
+        "required": false,
+        "prompt": "Transmission or distribution? (optional filter; keeps AS2885 and AS4645 distinct)"
+      },
+      {
+        "name": "project",
+        "displayName": "Project",
+        "type": "string",
+        "required": false,
+        "prompt": "Which project? (optional filter)"
+      }
+    ],
+    "dataAction": {
+      "type": "sharepoint-list-query",
+      "target": { "list": "LessonsLearned", "contentType": "Lesson Learned" },
+      "filterColumns": ["Capability", "AssetType", "Project"],
+      "keywordColumns": ["Title", "LessonSummary"],
+      "rules": [
+        "Return only records matching the supplied filters; if no filters supplied, return keyword matches.",
+        "This is a records search, not a grounded engineering claim, so no clause content is produced here.",
+        "AssetType is returned on every result to preserve the Transmission (AS 2885) vs Distribution (AS/NZS 4645) distinction."
+      ]
+    },
+    "output": {
+      "results": {
+        "type": "array",
+        "description": "Tagged lessons-learned results.",
+        "itemFields": [
+          { "name": "title", "type": "string", "required": true },
+          { "name": "summary", "type": "string", "required": true, "sourceColumn": "LessonSummary" },
+          { "name": "capability", "type": "string", "required": false },
+          { "name": "assetType", "type": "string", "required": true },
+          { "name": "project", "type": "string", "required": false },
+          { "name": "dateCaptured", "type": "string", "required": false },
+          { "name": "relatedDocuments", "type": "array", "required": false, "description": "Links to supporting evidence." }
+        ]
+      },
+      "emptyResultBehaviour": "State plainly that no matching lessons were found; do not fabricate a lesson. Suggest broadening the filters or raising a technical query."
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "title": "Pipeline Welding & Pressure Test ITP (sample)",
+  "project": "SAMPLE-TX-001",
+  "asset_type": "Transmission",
+  "scope_of_work": "Field welding, NDT and hydrostatic strength/leak test of a buried steel transmission pipeline tie-in section.",
+  "revision": "A",
+  "prepared_by": "EKA ITP generator (draft)",
+  "activities": [
+    {
+      "activity": "Weld procedure (WPS/PQR) verification",
+      "inspection_test": "Confirm qualified WPS and supporting PQR are available for the joint configuration",
+      "inspection_point": "Hold",
+      "responsibility": "Welding Engineer",
+      "verifying_document": "WPS / PQR records",
+      "record_form": "Weld procedure register"
+    },
+    {
+      "activity": "Welder qualification check",
+      "inspection_test": "Verify welders hold current qualifications for the procedure",
+      "inspection_point": "Hold",
+      "responsibility": "QA Inspector",
+      "verifying_document": "Welder qualification certificates",
+      "record_form": "Welder qualification register"
+    },
+    {
+      "activity": "Fit-up inspection",
+      "inspection_test": "Visual inspection of joint fit-up and alignment before welding",
+      "inspection_point": "Witness",
+      "responsibility": "QA Inspector",
+      "verifying_document": "Fit-up inspection report",
+      "record_form": "ITP checklist"
+    },
+    {
+      "activity": "Root and cap visual weld inspection",
+      "inspection_test": "Visual inspection of completed weld",
+      "inspection_point": "Witness",
+      "responsibility": "QA Inspector",
+      "verifying_document": "Visual inspection report",
+      "record_form": "Weld map"
+    },
+    {
+      "activity": "Non-destructive testing (radiography)",
+      "inspection_test": "NDT of completed welds per project NDT plan",
+      "inspection_point": "Hold",
+      "responsibility": "NDT Subcontractor",
+      "verifying_document": "NDT reports / radiographs",
+      "record_form": "NDT report register"
+    },
+    {
+      "activity": "Field joint coating inspection",
+      "inspection_test": "Holiday detection and visual inspection of applied coating",
+      "responsibility": "Coating Inspector",
+      "verifying_document": "Coating inspection report",
+      "record_form": "Coating record"
+    },
+    {
+      "activity": "Hydrostatic strength and leak test",
+      "inspection_test": "Pressurise test section, hold and record pressure/temperature over the test duration",
+      "inspection_point": "Hold",
+      "responsibility": "Test Supervisor / Witness",
+      "verifying_document": "Pressure test record and charts",
+      "record_form": "Hydrotest certificate"
+    }
+  ]
+}

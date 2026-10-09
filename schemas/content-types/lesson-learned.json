@@ -1,0 +1,85 @@
+{
+  "$schema": "https://example.org/eka/content-type.schema.json",
+  "contentType": {
+    "name": "Lesson Learned",
+    "internalName": "LessonLearned",
+    "id": "0x0100EKA000000000000000000000000002",
+    "group": "Engineering Knowledge Assistant",
+    "parentContentType": "Item",
+    "parentId": "0x01",
+    "description": "Historical lesson learned register entry. Supports the user capability 'search historical lessons learned'. Hosted on a SharePoint list (preferred) or a document library; same columns either way. Searchable by capability, asset type, and project. Mirrors information-architecture.md section 5.1. Note: inherits from Item (list), not Document, so it does NOT carry the base document columns.",
+    "targetList": "LessonsLearned",
+    "inheritsBaseColumns": false,
+    "columns": [
+      {
+        "name": "Title",
+        "internalName": "Title",
+        "type": "Text",
+        "required": true,
+        "termSet": null,
+        "description": "Short lesson title (standard SharePoint column)."
+      },
+      {
+        "name": "Summary",
+        "internalName": "LessonSummary",
+        "type": "Note",
+        "required": true,
+        "termSet": null,
+        "description": "What happened / what was learned."
+      },
+      {
+        "name": "Capability",
+        "internalName": "Capability",
+        "type": "Managed Metadata",
+        "required": true,
+        "multiValue": true,
+        "termSet": "Capability",
+        "description": "Search by capability area."
+      },
+      {
+        "name": "AssetType",
+        "internalName": "AssetType",
+        "type": "Managed Metadata",
+        "required": true,
+        "multiValue": false,
+        "termSet": "Asset Type",
+        "description": "Search transmission vs distribution (preserves AS2885/AS4645 distinction in results)."
+      },
+      {
+        "name": "Project",
+        "internalName": "Project",
+        "type": "Text",
+        "required": true,
+        "termSet": null,
+        "description": "Search by originating project."
+      },
+      {
+        "name": "Discipline",
+        "internalName": "Discipline",
+        "type": "Managed Metadata",
+        "required": false,
+        "multiValue": false,
+        "termSet": "Discipline",
+        "description": "Discipline filtering."
+      },
+      {
+        "name": "DateCaptured",
+        "internalName": "DateCaptured",
+        "type": "DateTime",
+        "required": false,
+        "displayFormat": "DateOnly",
+        "termSet": null,
+        "description": "When the lesson was recorded."
+      },
+      {
+        "name": "RelatedDocuments",
+        "internalName": "RelatedDocuments",
+        "type": "Hyperlink",
+        "required": false,
+        "multiValue": true,
+        "termSet": null,
+        "description": "Links to supporting evidence."
+      }
+    ]
+  }
+}

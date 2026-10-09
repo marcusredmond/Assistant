@@ -1,0 +1,44 @@
+{
+  "$schema": "https://example.org/eka/content-type.schema.json",
+  "contentType": {
+    "name": "Procedure",
+    "internalName": "Procedure",
+    "id": "0x0101EKA000000000000000000000000001A2",
+    "group": "Engineering Knowledge Assistant",
+    "parentContentType": "Base Engineering Document",
+    "parentId": "0x0101EKA000000000000000000000000001",
+    "description": "Approved engineering procedure. Upload target for 'upload procedures'. Mirrors information-architecture.md section 4.3.",
+    "targetLibrary": "Procedures",
+    "inheritsBaseColumns": true,
+    "columnOverrides": [],
+    "columns": [
+      {
+        "name": "ProcedureType",
+        "internalName": "ProcedureType",
+        "type": "Choice",
+        "required": false,
+        "termSet": null,
+        "choices": ["Commissioning", "Construction", "Welding", "General"],
+        "allowFillIn": false,
+        "description": "Classifies the kind of procedure."
+      },
+      {
+        "name": "Owner",
+        "internalName": "ProcedureOwner",
+        "type": "Person",
+        "required": false,
+        "termSet": null,
+        "description": "Document owner."
+      },
+      {
+        "name": "EffectiveDate",
+        "internalName": "EffectiveDate",
+        "type": "DateTime",
+        "required": false,
+        "displayFormat": "DateOnly",
+        "termSet": null,
+        "description": "When the procedure takes effect."
+      }
+    ]
+  }
+}

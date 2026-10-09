@@ -1,0 +1,202 @@
+{
+  "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+  "comment": "EKA document ingestion flow - tenant-neutral Power Automate export-style skeleton. Connection references, site addresses, and library GUIDs are placeholders to bind on import. Mirrors ingestion-flow-spec.md. Declarative design only; not deployable from this sandbox.",
+  "contentVersion": "0.1.0.0",
+  "parameters": {
+    "$connections": {
+      "defaultValue": {},
+      "type": "Object"
+    },
+    "siteAddress": {
+      "defaultValue": "[PLACEHOLDER - EKA SharePoint site URL]",
+      "type": "String"
+    },
+    "ingestedLibrary": {
+      "defaultValue": "[PLACEHOLDER - library name: StandardsExtracts | Procedures | ProjectDocuments | LessonsLearned]",
+      "type": "String"
+    }
+  },
+  "triggers": {
+    "When_a_file_is_created_or_modified": {
+      "type": "OpenApiConnectionWebhook",
+      "comment": "SharePoint OnNewFile trigger on a monitored EKA library.",
+      "inputs": {
+        "host": {
+          "connectionName": "shared_sharepointonline",
+          "operationId": "OnNewFile"
+        },
+        "parameters": {
+          "dataset": "@parameters('siteAddress')",
+          "table": "@parameters('ingestedLibrary')",
+          "inferContentType": true
+        }
+      }
+    }
+  },
+  "actions": {
+    "Get_file_properties": {
+      "type": "OpenApiConnection",
+      "runAfter": {},
+      "inputs": {
+        "host": { "connectionName": "shared_sharepointonline", "operationId": "GetFileItem" },
+        "parameters": {
+          "dataset": "@parameters('siteAddress')",
+          "table": "@parameters('ingestedLibrary')",
+          "id": "@triggerOutputs()?['body/ItemId']"
+        }
+      }
+    },
+    "Detect_content_type": {
+      "type": "Switch",
+      "runAfter": { "Get_file_properties": ["Succeeded"] },
+      "comment": "Infer content type from the source library when not already set.",
+      "expression": "@parameters('ingestedLibrary')",
+      "cases": {
+        "StandardsExtracts": { "case": "StandardsExtracts", "actions": { "Set_type_StandardsExtract": { "type": "Compose", "inputs": "Standards Extract" } } },
+        "Procedures": { "case": "Procedures", "actions": { "Set_type_Procedure": { "type": "Compose", "inputs": "Procedure" } } },
+        "ProjectDocuments": { "case": "ProjectDocuments", "actions": { "Set_type_ProjectDocument": { "type": "Compose", "inputs": "Project Document" } } },
+        "LessonsLearned": { "case": "LessonsLearned", "actions": { "Set_type_LessonLearned": { "type": "Compose", "inputs": "Lesson Learned" } } }
+      },
+      "default": { "actions": { "Set_type_default": { "type": "Compose", "inputs": "Base Engineering Document" } } }
+    },
+    "Validate_required_metadata": {
+      "type": "If",
+      "runAfter": { "Detect_content_type": ["Succeeded"] },
+      "comment": "Required fields vary by content type: all docs need Title/AssetType/DocumentStatus; Standards Extract adds StandardReference+LicenceConfirmed; Project Document adds Project; Lesson Learned adds Summary/Capability/AssetType/Project. Missing fields raise a human task and halt grounding.",
+      "expression": {
+        "and": [
+          { "not": { "equals": ["@coalesce(outputs('Get_file_properties')?['body/Title'], '')", ""] } },
+          { "not": { "equals": ["@coalesce(outputs('Get_file_properties')?['body/AssetType'], '')", ""] } }
+        ]
+      },
+      "actions": {
+        "Set_DocumentStatus": {
+          "type": "OpenApiConnection",
+          "runAfter": {},
+          "comment": "Normalise DocumentStatus. Source docs default to In Review; lessons learned to Approved.",
+          "inputs": {
+            "host": { "connectionName": "shared_sharepointonline", "operationId": "PatchFileItem" },
+            "parameters": {
+              "dataset": "@parameters('siteAddress')",
+              "table": "@parameters('ingestedLibrary')",
+              "id": "@triggerOutputs()?['body/ItemId']",
+              "item/DocumentStatus": "@if(equals(parameters('ingestedLibrary'), 'LessonsLearned'), 'Approved', 'In Review')"
+            }
+          }
+        },
+        "Standards_extract_licensing_gate": {
+          "type": "If",
+          "runAfter": { "Set_DocumentStatus": ["Succeeded"] },
+          "comment": "OQ-1 licensing gate. Only Standards Extract items with LicenceConfirmed = true may be grounded. Clause values stay as marked placeholders; never fabricated.",
+          "expression": {
+            "or": [
+              { "not": { "equals": ["@parameters('ingestedLibrary')", "StandardsExtracts"] } },
+              { "equals": ["@coalesce(outputs('Get_file_properties')?['body/LicenceConfirmed'], false)", true] }
+            ]
+          },
+          "actions": {
+            "Mark_grounding_eligible": {
+              "type": "OpenApiConnection",
+              "runAfter": {},
+              "comment": "Flag item as grounding-eligible and refresh the Copilot Studio knowledge source for this library. Preserves AS2885/AS4645 separation via AssetType and StandardReference.",
+              "inputs": {
+                "host": { "connectionName": "shared_sharepointonline", "operationId": "PatchFileItem" },
+                "parameters": {
+                  "dataset": "@parameters('siteAddress')",
+                  "table": "@parameters('ingestedLibrary')",
+                  "id": "@triggerOutputs()?['body/ItemId']",
+                  "item/GroundingEligible": true
+                }
+              }
+            },
+            "Refresh_Copilot_knowledge_source": {
+              "type": "Http",
+              "runAfter": { "Mark_grounding_eligible": ["Succeeded"] },
+              "comment": "Placeholder call to trigger Copilot Studio knowledge-source reindex for the library. Bind endpoint/auth on import.",
+              "inputs": {
+                "method": "POST",
+                "uri": "[PLACEHOLDER - Copilot Studio knowledge source refresh endpoint]",
+                "body": { "library": "@parameters('ingestedLibrary')", "itemId": "@triggerOutputs()?['body/ItemId']" }
+              }
+            }
+          },
+          "else": {
+            "actions": {
+              "Hold_for_licence_confirmation": {
+                "type": "OpenApiConnection",
+                "runAfter": {},
+                "comment": "Fail-safe: unlicensed standards extract is NOT groundable. Set Draft, skip indexing, notify licensing owner (OQ-1).",
+                "inputs": {
+                  "host": { "connectionName": "shared_sharepointonline", "operationId": "PatchFileItem" },
+                  "parameters": {
+                    "dataset": "@parameters('siteAddress')",
+                    "table": "@parameters('ingestedLibrary')",
+                    "id": "@triggerOutputs()?['body/ItemId']",
+                    "item/DocumentStatus": "Draft",
+                    "item/GroundingEligible": false
+                  }
+                }
+              },
+              "Notify_licensing_owner": {
+                "type": "OpenApiConnection",
+                "runAfter": { "Hold_for_licence_confirmation": ["Succeeded"] },
+                "inputs": {
+                  "host": { "connectionName": "shared_office365", "operationId": "SendEmailV2" },
+                  "parameters": {
+                    "emailMessage/To": "[PLACEHOLDER - licensing/records owner]",
+                    "emailMessage/Subject": "Standards extract pending licensing confirmation (OQ-1) - not grounded",
+                    "emailMessage/Body": "A standards extract was uploaded without LicenceConfirmed. It is held as Draft and excluded from grounding until licensing is confirmed."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Write_ingestion_audit": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Standards_extract_licensing_gate": ["Succeeded", "Failed", "Skipped"] },
+          "comment": "Append an ingestion audit record (item, content type, status, grounding outcome).",
+          "inputs": {
+            "host": { "connectionName": "shared_commondataserviceforapps", "operationId": "CreateRecord" },
+            "parameters": {
+              "entityName": "eka_generationrequests",
+              "item/eka_name": "@concat('ingest-', triggerOutputs()?['body/ItemId'])",
+              "item/eka_deliverabletype": "ingestion"
+            }
+          }
+        }
+      },
+      "else": {
+        "actions": {
+          "Request_missing_metadata": {
+            "type": "OpenApiConnection",
+            "runAfter": {},
+            "comment": "Required metadata missing. Set Draft, assign a task to the uploader to supply it, and halt grounding. Never auto-populate engineering metadata.",
+            "inputs": {
+              "host": { "connectionName": "shared_sharepointonline", "operationId": "PatchFileItem" },
+              "parameters": {
+                "dataset": "@parameters('siteAddress')",
+                "table": "@parameters('ingestedLibrary')",
+                "id": "@triggerOutputs()?['body/ItemId']",
+                "item/DocumentStatus": "Draft"
+              }
+            }
+          },
+          "Notify_uploader": {
+            "type": "OpenApiConnection",
+            "runAfter": { "Request_missing_metadata": ["Succeeded"] },
+            "inputs": {
+              "host": { "connectionName": "shared_office365", "operationId": "SendEmailV2" },
+              "parameters": {
+                "emailMessage/To": "@triggerOutputs()?['body/Author/Email']",
+                "emailMessage/Subject": "Action needed: missing metadata on uploaded document",
+                "emailMessage/Body": "Your upload is missing required metadata (for example Title, Asset Type, or content-type-specific fields). It is held as Draft and not grounded until completed."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "outputs": {}
+}
