@@ -1,0 +1,249 @@
+{
+  "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+  "comment": "EKA commissioning procedure generation flow - tenant-neutral Power Automate export-style skeleton. Connection references, site addresses, library/Dataverse GUIDs are placeholders to bind on import. Reuses the generator pattern from flows/itp/itp-generation-flow.definition.json. Mirrors commissioning-generation-flow-spec.md. Declarative design only; not deployable from this sandbox.",
+  "contentVersion": "0.1.0.0",
+  "parameters": {
+    "$connections": {
+      "defaultValue": {},
+      "type": "Object"
+    },
+    "siteAddress": {
+      "defaultValue": "[PLACEHOLDER - EKA SharePoint site URL]",
+      "type": "String"
+    },
+    "generatedDeliverablesLibrary": {
+      "defaultValue": "GeneratedDeliverables",
+      "type": "String"
+    },
+    "draftMarker": {
+      "defaultValue": "DRAFT — pending engineering review",
+      "type": "String"
+    }
+  },
+  "triggers": {
+    "When_a_commissioning_procedure_is_requested": {
+      "type": "Request",
+      "kind": "PowerApp",
+      "comment": "Canvas app passes inputs: title, project, systemUnderCommissioning, assetType, scope, revision, preparedBy, preCommissioningChecksJson, commissioningStepsJson.",
+      "inputs": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "project": { "type": "string" },
+            "systemUnderCommissioning": { "type": "string" },
+            "assetType": { "type": "string" },
+            "scope": { "type": "string" },
+            "revision": { "type": "string" },
+            "preparedBy": { "type": "string" },
+            "preCommissioningChecksJson": { "type": "string" },
+            "commissioningStepsJson": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "actions": {
+    "Validate_asset_type": {
+      "type": "If",
+      "runAfter": {},
+      "comment": "assetType must be Transmission, Distribution, or Not asset-specific. Keeps AS2885 (transmission) and AS/NZS 4645 (distribution) distinct; never guesses.",
+      "expression": {
+        "or": [
+          { "equals": ["@triggerBody()?['assetType']", "Transmission"] },
+          { "equals": ["@triggerBody()?['assetType']", "Distribution"] },
+          { "equals": ["@triggerBody()?['assetType']", "Not asset-specific"] }
+        ]
+      },
+      "actions": {
+        "Resolve_standard_label": {
+          "type": "Compose",
+          "runAfter": {},
+          "comment": "Asset-type standard family LABEL only; carries no clause number or acceptance-criteria text.",
+          "inputs": "@if(equals(triggerBody()?['assetType'], 'Transmission'), 'AS 2885 series', if(equals(triggerBody()?['assetType'], 'Distribution'), 'AS/NZS 4645 series', 'project-supplied reference'))"
+        },
+        "Compose_acceptance_placeholder": {
+          "type": "Compose",
+          "runAfter": { "Resolve_standard_label": ["Succeeded"] },
+          "comment": "Exact placeholder used when a standard-derived acceptance criterion (e.g. pressure-test hold time, leak-rate limit) is required but not supplied from a licensed source. Clause/year stay literal tokens; never fabricated.",
+          "inputs": "@concat('[PLACEHOLDER - acceptance criterion from licensed ', outputs('Resolve_standard_label'), ' <clause> rev <year>]')"
+        },
+        "Parse_pre_commissioning_checks": {
+          "type": "ParseJson",
+          "runAfter": { "Compose_acceptance_placeholder": ["Succeeded"] },
+          "comment": "Parse the ordered pre-commissioning check list passed from the app. Order is preserved as a safety control.",
+          "inputs": {
+            "content": "@triggerBody()?['preCommissioningChecksJson']",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": { "type": "string" },
+                  "inspection_point": { "type": "string" },
+                  "responsibility": { "type": "string" },
+                  "verifying_document": { "type": "string" },
+                  "record_form": { "type": "string" },
+                  "acceptance_criteria": { "type": "string" },
+                  "acceptance_source": { "type": "string" }
+                },
+                "required": ["description"]
+              }
+            }
+          }
+        },
+        "Parse_commissioning_steps": {
+          "type": "ParseJson",
+          "runAfter": { "Parse_pre_commissioning_checks": ["Succeeded"] },
+          "comment": "Parse the ordered commissioning step list (purge, pressure test, leak test, gas-in, etc.). Input order is never reordered.",
+          "inputs": {
+            "content": "@triggerBody()?['commissioningStepsJson']",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": { "type": "string" },
+                  "inspection_point": { "type": "string" },
+                  "responsibility": { "type": "string" },
+                  "verifying_document": { "type": "string" },
+                  "record_form": { "type": "string" },
+                  "acceptance_criteria": { "type": "string" },
+                  "acceptance_source": { "type": "string" }
+                },
+                "required": ["description"]
+              }
+            }
+          }
+        },
+        "Normalise_pre_commissioning_checks": {
+          "type": "Select",
+          "runAfter": { "Parse_commissioning_steps": ["Succeeded"] },
+          "comment": "Normalise each pre-commissioning check's inspection point to an H/W/R/M code and flag defaulted points, reproducing prototypes/itp/itp_generator.py normalise_inspection_point + point_defaulted before the document write. Input order is preserved by Select. A defaulted point surfaces as '(confirm)' in the generated document; it is never silently Hold.",
+          "inputs": {
+            "from": "@body('Parse_pre_commissioning_checks')",
+            "select": {
+              "description": "@item()?['description']",
+              "inspection_point_code": "@if(or(equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'H'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'HOLD'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'HOLD POINT')), 'H', if(or(equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'W'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'WITNESS'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'WITNESS POINT')), 'W', if(or(equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'M'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'MONITOR'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'SURVEILLANCE')), 'M', 'R')))",
+              "point_defaulted": "@not(contains(createArray('H','HOLD','HOLD POINT','W','WITNESS','WITNESS POINT','R','REVIEW','M','MONITOR','SURVEILLANCE'), toUpper(trim(coalesce(item()?['inspection_point'], '')))))",
+              "responsibility": "@item()?['responsibility']",
+              "verifying_document": "@item()?['verifying_document']",
+              "record_form": "@item()?['record_form']",
+              "acceptance_criteria": "@if(and(not(empty(coalesce(item()?['acceptance_criteria'], ''))), not(empty(coalesce(item()?['acceptance_source'], '')))), concat(item()?['acceptance_criteria'], ' (source: ', item()?['acceptance_source'], ')'), outputs('Compose_acceptance_placeholder'))"
+            }
+          }
+        },
+        "Normalise_commissioning_steps": {
+          "type": "Select",
+          "runAfter": { "Normalise_pre_commissioning_checks": ["Succeeded"] },
+          "comment": "Same H/W/R/M normalisation + defaulted-flag for the ordered commissioning steps (purge, pressure test, leak test, gas-in). Order preserved; defaulted points flagged for the reviewer, never silently Hold.",
+          "inputs": {
+            "from": "@body('Parse_commissioning_steps')",
+            "select": {
+              "description": "@item()?['description']",
+              "inspection_point_code": "@if(or(equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'H'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'HOLD'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'HOLD POINT')), 'H', if(or(equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'W'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'WITNESS'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'WITNESS POINT')), 'W', if(or(equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'M'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'MONITOR'), equals(toUpper(trim(coalesce(item()?['inspection_point'], ''))), 'SURVEILLANCE')), 'M', 'R')))",
+              "point_defaulted": "@not(contains(createArray('H','HOLD','HOLD POINT','W','WITNESS','WITNESS POINT','R','REVIEW','M','MONITOR','SURVEILLANCE'), toUpper(trim(coalesce(item()?['inspection_point'], '')))))",
+              "responsibility": "@item()?['responsibility']",
+              "verifying_document": "@item()?['verifying_document']",
+              "record_form": "@item()?['record_form']",
+              "acceptance_criteria": "@if(and(not(empty(coalesce(item()?['acceptance_criteria'], ''))), not(empty(coalesce(item()?['acceptance_source'], '')))), concat(item()?['acceptance_criteria'], ' (source: ', item()?['acceptance_source'], ')'), outputs('Compose_acceptance_placeholder'))"
+            }
+          }
+        },
+        "Generate_commissioning_document": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Normalise_commissioning_steps": ["Succeeded"] },
+          "comment": "Populate the commissioning procedure template (Word/SharePoint template or Office Script over templates/commissioning/commissioning-procedure-template.md) with header, pre-commissioning checks, commissioning steps, hold points, and records, with the visible DRAFT marker. Consumes the normalised H/W/R/M lists; a defaulted (Review) point is rendered '(confirm)'. Acceptance criteria are already resolved to a source-backed value or the exact placeholder in the Select steps; never fabricated.",
+          "inputs": {
+            "host": { "connectionName": "shared_wordonlinebusiness", "operationId": "PopulateWordTemplate" },
+            "parameters": {
+              "source": "@parameters('siteAddress')",
+              "documentLibrary": "[PLACEHOLDER - commissioning template library/GUID]",
+              "file": "[PLACEHOLDER - commissioning-procedure-template file id]",
+              "draftMarker": "@parameters('draftMarker')",
+              "standardLabel": "@outputs('Resolve_standard_label')",
+              "acceptancePlaceholder": "@outputs('Compose_acceptance_placeholder')",
+              "preCommissioningChecks": "@body('Normalise_pre_commissioning_checks')",
+              "commissioningSteps": "@body('Normalise_commissioning_steps')"
+            }
+          }
+        },
+        "Store_draft_in_GeneratedDeliverables": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Generate_commissioning_document": ["Succeeded"] },
+          "comment": "Create the commissioning procedure document (content type Commissioning Procedure, DeliverableType commissioning-procedure, SystemUnderCommissioning set).",
+          "inputs": {
+            "host": { "connectionName": "shared_sharepointonline", "operationId": "CreateFile" },
+            "parameters": {
+              "dataset": "@parameters('siteAddress')",
+              "folderPath": "@parameters('generatedDeliverablesLibrary')",
+              "name": "@concat(triggerBody()?['title'], ' (DRAFT).docx')",
+              "body": "@body('Generate_commissioning_document')"
+            }
+          }
+        },
+        "Write_generation_audit_entry": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Store_draft_in_GeneratedDeliverables": ["Succeeded"] },
+          "comment": "Record the generation request in the Dataverse generation audit (schemas/dataverse/generation-audit.json). Field names match the eka_generationrequest table exactly so the flow binds on import. Asset type and project are captured inside eka_requestinput (the table has no dedicated columns for them); the asset-type separation itself is enforced upstream by Validate_asset_type.",
+          "inputs": {
+            "host": { "connectionName": "shared_commondataserviceforapps", "operationId": "CreateRecord" },
+            "parameters": {
+              "entityName": "eka_generationrequests",
+              "item/eka_name": "@concat('Commissioning procedure: ', triggerBody()?['title'])",
+              "item/eka_deliverabletype": "commissioning-procedure",
+              "item/eka_requestedon": "@utcNow()",
+              "item/eka_requestinput": "@concat('assetType=', triggerBody()?['assetType'], '; project=', triggerBody()?['project'], '; system=', triggerBody()?['systemUnderCommissioning'], '; preChecks=', string(length(body('Normalise_pre_commissioning_checks'))), '; steps=', string(length(body('Normalise_commissioning_steps'))))",
+              "item/eka_templateused": "templates/commissioning/commissioning-procedure-template.md",
+              "item/eka_outputdocurl": "@body('Store_draft_in_GeneratedDeliverables')?['{Link}']",
+              "item/eka_status": "Draft"
+            }
+          }
+        },
+        "Route_for_engineering_review": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Write_generation_audit_entry": ["Succeeded"] },
+          "comment": "Start a qualified-engineer approval. On sign-off: reviewer confirms sequence and hold points, completes acceptance criteria from the licensed source, DRAFT marker is cleared. Until then the procedure is not authoritative and must not be used to commission a live system.",
+          "inputs": {
+            "host": { "connectionName": "shared_approvals", "operationId": "StartAndWaitForAnApproval" },
+            "parameters": {
+              "approvalType": "Basic",
+              "title": "@concat('Commissioning procedure review required (DRAFT): ', triggerBody()?['title'])",
+              "assignedTo": "[PLACEHOLDER - responsible engineer]"
+            }
+          }
+        },
+        "Respond_to_app": {
+          "type": "Response",
+          "kind": "PowerApp",
+          "runAfter": { "Route_for_engineering_review": ["Succeeded", "Failed", "Skipped"] },
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "documentUrl": "@body('Store_draft_in_GeneratedDeliverables')?['{Link}']",
+              "status": "Draft",
+              "draftMarker": "@parameters('draftMarker')"
+            }
+          }
+        }
+      },
+      "else": {
+        "actions": {
+          "Terminate_invalid_asset_type": {
+            "type": "Terminate",
+            "runAfter": {},
+            "comment": "Fail-safe: do not generate a commissioning procedure with an unknown asset type; the two standard families must never be blended.",
+            "inputs": {
+              "runStatus": "Failed",
+              "runError": {
+                "code": "InvalidAssetType",
+                "message": "assetType must be Transmission, Distribution, or Not asset-specific."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "outputs": {}
+}

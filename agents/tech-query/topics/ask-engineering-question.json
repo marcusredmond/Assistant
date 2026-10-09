@@ -1,0 +1,84 @@
+{
+  "$schema": "https://example.org/eka/copilot-topic.schema.json",
+  "topic": {
+    "name": "ask-engineering-question",
+    "displayName": "Ask an engineering question",
+    "capability": "tech-query",
+    "version": "0.1.0",
+    "status": "Draft",
+    "description": "Document-grounded engineering Q&A. Returns an answer built only from connected SharePoint sources, with a citation for every engineering claim. States uncertainty and defers rather than guessing. Tenant-neutral declarative design.",
+    "triggerPhrases": [
+      "ask an engineering question",
+      "what does the procedure say about",
+      "is this compliant with",
+      "what is the requirement for",
+      "look this up",
+      "technical question"
+    ],
+    "slots": [
+      {
+        "name": "question",
+        "displayName": "Question",
+        "type": "string",
+        "required": true,
+        "prompt": "What is your engineering question?"
+      },
+      {
+        "name": "assetType",
+        "displayName": "Asset type",
+        "type": "choice",
+        "choices": ["Transmission", "Distribution", "Not asset-specific"],
+        "required": false,
+        "prompt": "Is this about a transmission (AS 2885) or distribution (AS/NZS 4645) asset? Confirm so the two are not mixed.",
+        "note": "If the question implies a standards or asset-specific answer and this is unknown or ambiguous, ask before answering. Do not blend AS2885 and AS4645."
+      },
+      {
+        "name": "project",
+        "displayName": "Project",
+        "type": "string",
+        "required": false,
+        "prompt": "Which project does this relate to? (optional, narrows project-document grounding)"
+      }
+    ],
+    "groundingAction": {
+      "type": "sharepoint-knowledge-retrieval",
+      "sources": [
+        { "library": "Procedures", "contentType": "Procedure" },
+        { "library": "ProjectDocuments", "contentType": "Project Document" },
+        { "library": "LessonsLearned", "contentType": "Lesson Learned" },
+        { "library": "StandardsExtracts", "contentType": "Standards Extract", "condition": "LicenceConfirmed == 'Yes'", "openQuestion": "OQ-1" },
+        { "library": "GeneratedDeliverables", "contentType": "Generated Deliverable", "condition": "DocumentStatus == 'Approved'" }
+      ],
+      "retrievalRules": [
+        "Prefer DocumentStatus = Approved; exclude Superseded; flag reliance on In Review.",
+        "Filter on AssetType and StandardReference so Transmission (AS 2885) and Distribution (AS/NZS 4645) are never blended.",
+        "StandardsExtracts are eligible only when LicenceConfirmed = Yes (OQ-1 precondition); otherwise excluded.",
+        "Answer only from retrieved passages. Never invent or paraphrase clause numbers, acceptance criteria, or requirements."
+      ]
+    },
+    "output": {
+      "answer": {
+        "type": "string",
+        "description": "Grounded answer composed only from retrieved content."
+      },
+      "citations": {
+        "type": "array",
+        "required": true,
+        "minItems": 1,
+        "itemFields": [
+          { "name": "sourceDocument", "type": "string", "required": true, "description": "Title/link of the source document." },
+          { "name": "sourceLibrary", "type": "string", "required": true },
+          { "name": "standardReference", "type": "string", "required": false, "description": "Standard label only, e.g. 'AS 2885.1' or 'AS/NZS 4645.1'." },
+          { "name": "clauseSection", "type": "string", "required": false, "description": "Clause/section ONLY if printed in the licensed source; else '[PLACEHOLDER - to be filled from licensed <standard> <clause> rev <year>]'." },
+          { "name": "revision", "type": "string", "required": false, "description": "Revision/year ONLY if stated by the source." }
+        ]
+      },
+      "uncertaintyFallback": {
+        "whenRetrievalEmptyOrWeak": true,
+        "behaviour": "State uncertainty plainly, name the authoritative document to consult, and defer to the responsible engineer. Do not guess. If standards text is unavailable pending licensing, reference OQ-1 and leave the clause placeholder.",
+        "noFabrication": true,
+        "assetTypeAmbiguityBehaviour": "If the question appears to mix or not specify Transmission vs Distribution, ask the user to confirm asset type before answering."
+      }
+    }
+  }
+}

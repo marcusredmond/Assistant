@@ -1,0 +1,79 @@
+{
+  "$schema": "https://example.org/eka/term-sets.schema.json",
+  "description": "EKA managed-metadata term sets (term store taxonomy). Declarative, tenant-neutral. Term labels and ids are placeholders to be assigned on import into the target tenant term store. Mirrors docs/information-arch/information-architecture.md section 3. AS2885 (transmission) and AS4645 (distribution) are kept distinct.",
+  "version": "0.1.0",
+  "status": "Draft",
+  "termGroup": "Engineering Knowledge Assistant",
+  "termSets": [
+    {
+      "name": "Asset Type",
+      "internalName": "AssetType",
+      "description": "Keeps transmission and distribution assets distinct.",
+      "open": false,
+      "terms": [
+        { "label": "Transmission", "description": "Transmission pipeline systems (AS2885 domain)." },
+        { "label": "Distribution", "description": "Distribution gas networks (AS4645 domain)." },
+        { "label": "Not asset-specific", "description": "Content not tied to a single asset type." }
+      ]
+    },
+    {
+      "name": "Discipline",
+      "internalName": "Discipline",
+      "description": "Engineering discipline for filtering and grounding.",
+      "open": true,
+      "terms": [
+        { "label": "Pipeline", "description": "Pipeline engineering." },
+        { "label": "Mechanical", "description": "Mechanical / rotating." },
+        { "label": "Welding", "description": "Welding and NDT." },
+        { "label": "Civil", "description": "Civil / structural." },
+        { "label": "Instrumentation & Control", "description": "I&C / SCADA." },
+        { "label": "Integrity", "description": "Integrity / risk." },
+        { "label": "Commissioning", "description": "Commissioning." }
+      ]
+    },
+    {
+      "name": "Capability",
+      "internalName": "Capability",
+      "description": "Maps to the nine program capability-area shorthands.",
+      "open": false,
+      "terms": [
+        { "label": "as2885", "description": "AS2885 compliance (transmission)." },
+        { "label": "as4645", "description": "AS4645 compliance (distribution)." },
+        { "label": "commissioning", "description": "Commissioning procedures." },
+        { "label": "welding", "description": "Welding requirements." },
+        { "label": "itp", "description": "ITP generation." },
+        { "label": "design-review", "description": "Design reviews." },
+        { "label": "construction", "description": "Construction support." },
+        { "label": "risk-assessment", "description": "Risk assessments." },
+        { "label": "tech-query", "description": "Technical queries." }
+      ]
+    },
+    {
+      "name": "Document Status",
+      "internalName": "DocumentStatus",
+      "description": "Human-in-the-loop review lifecycle.",
+      "open": false,
+      "terms": [
+        { "label": "Draft", "description": "Working draft / newly generated (DRAFT — pending engineering review)." },
+        { "label": "In Review", "description": "Submitted for engineering review." },
+        { "label": "Approved", "description": "Reviewed and signed off by a qualified engineer." },
+        { "label": "Superseded", "description": "Replaced by a newer revision." }
+      ]
+    },
+    {
+      "name": "Standard Reference",
+      "internalName": "StandardReference",
+      "description": "Governing-standard reference labels ONLY. These never encode clause text, acceptance criteria, or requirements. AS2885 (transmission) and AS4645 (distribution) kept distinct. Actual clause/section content comes only from a licensed source in StandardsExtracts (subject to OQ-1).",
+      "open": true,
+      "terms": [
+        { "label": "AS 2885.1", "description": "Transmission pipelines - part 1 (reference label only)." },
+        { "label": "AS 2885.2", "description": "Transmission pipelines - part 2 (reference label only)." },
+        { "label": "AS 2885.3", "description": "Transmission pipelines - part 3 (reference label only)." },
+        { "label": "AS/NZS 4645.1", "description": "Distribution networks - part 1 (reference label only)." },
+        { "label": "AS/NZS 4645.2", "description": "Distribution networks - part 2 (reference label only)." },
+        { "label": "AS/NZS 4645.3", "description": "Distribution networks - part 3 (reference label only)." },
+        { "label": "Other", "description": "Any other referenced standard (open term, label only)." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://example.org/eka/content-type.schema.json",
+  "contentType": {
+    "name": "ITP",
+    "internalName": "ITP",
+    "id": "0x0101EKA000000000000000000000000003B2",
+    "group": "Engineering Knowledge Assistant",
+    "parentContentType": "Generated Deliverable",
+    "parentId": "0x0101EKA000000000000000000000000003",
+    "description": "Generated Inspection and Test Plan (ITP) deliverable subtype. Inherits all Generated Deliverable columns (DocumentStatus defaults to Draft, DraftMarker 'DRAFT — pending engineering review'). Supports the user capability 'generate ITPs'. ITP line items live in the Dataverse ITP register (schemas/dataverse/itp-register.json), referenced by ItpRegisterId. Mirrors information-architecture.md section 4.5.",
+    "targetLibrary": "GeneratedDeliverables",
+    "inheritsBaseColumns": true,
+    "columnOverrides": [
+      {
+        "internalName": "DeliverableType",
+        "defaultValue": "itp",
+        "description": "Fixed to itp for this subtype."
+      }
+    ],
+    "columns": [
+      {
+        "name": "ItpRegisterId",
+        "internalName": "ItpRegisterId",
+        "type": "Text",
+        "required": false,
+        "termSet": null,
+        "description": "Foreign key to the Dataverse ITP register header row holding the structured line items."
+      },
+      {
+        "name": "ScopeOfWork",
+        "internalName": "ScopeOfWork",
+        "type": "Note",
+        "required": false,
+        "termSet": null,
+        "description": "Scope of work the ITP covers."
+      }
+    ]
+  }
+}

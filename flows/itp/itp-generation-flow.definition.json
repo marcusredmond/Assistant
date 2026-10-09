@@ -1,0 +1,263 @@
+{
+  "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+  "comment": "EKA ITP generation flow - tenant-neutral Power Automate export-style skeleton. Connection references, site addresses, library/Dataverse GUIDs are placeholders to bind on import. Applies the rules validated by prototypes/itp/itp_generator.py. Mirrors itp-generation-flow-spec.md. Declarative design only; not deployable from this sandbox.",
+  "contentVersion": "0.1.0.0",
+  "parameters": {
+    "$connections": {
+      "defaultValue": {},
+      "type": "Object"
+    },
+    "siteAddress": {
+      "defaultValue": "[PLACEHOLDER - EKA SharePoint site URL]",
+      "type": "String"
+    },
+    "generatedDeliverablesLibrary": {
+      "defaultValue": "GeneratedDeliverables",
+      "type": "String"
+    },
+    "draftMarker": {
+      "defaultValue": "DRAFT — pending engineering review",
+      "type": "String"
+    }
+  },
+  "triggers": {
+    "When_an_ITP_is_requested": {
+      "type": "Request",
+      "kind": "PowerApp",
+      "comment": "Canvas app passes ITP inputs: title, project, assetType, scopeOfWork, revision, preparedBy, activitiesJson.",
+      "inputs": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "project": { "type": "string" },
+            "assetType": { "type": "string" },
+            "scopeOfWork": { "type": "string" },
+            "revision": { "type": "string" },
+            "preparedBy": { "type": "string" },
+            "activitiesJson": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "actions": {
+    "Validate_asset_type": {
+      "type": "If",
+      "runAfter": {},
+      "comment": "assetType must be Transmission, Distribution, or Not asset-specific. Keeps AS2885 (transmission) and AS/NZS 4645 (distribution) distinct; never guesses.",
+      "expression": {
+        "or": [
+          { "equals": ["@triggerBody()?['assetType']", "Transmission"] },
+          { "equals": ["@triggerBody()?['assetType']", "Distribution"] },
+          { "equals": ["@triggerBody()?['assetType']", "Not asset-specific"] }
+        ]
+      },
+      "actions": {
+        "Resolve_standard_label": {
+          "type": "Compose",
+          "runAfter": {},
+          "comment": "Asset-type standard family LABEL only; carries no clause number or acceptance-criteria text.",
+          "inputs": "@if(equals(triggerBody()?['assetType'], 'Transmission'), 'AS 2885 series', if(equals(triggerBody()?['assetType'], 'Distribution'), 'AS/NZS 4645 series', 'project-supplied reference'))"
+        },
+        "Compose_acceptance_placeholder": {
+          "type": "Compose",
+          "runAfter": { "Resolve_standard_label": ["Succeeded"] },
+          "comment": "Exact placeholder used when a standard-derived acceptance criterion is required but not supplied from a licensed source. Clause/year stay literal tokens; never fabricated.",
+          "inputs": "@concat('[PLACEHOLDER - acceptance criterion from licensed ', outputs('Resolve_standard_label'), ' <clause> rev <year>]')"
+        },
+        "Parse_activities": {
+          "type": "ParseJson",
+          "runAfter": { "Compose_acceptance_placeholder": ["Succeeded"] },
+          "comment": "Parse the activity list passed from the app (same shape as prototypes/itp/sample-activities.json).",
+          "inputs": {
+            "content": "@triggerBody()?['activitiesJson']",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "activity": { "type": "string" },
+                  "inspection_test": { "type": "string" },
+                  "inspection_point": { "type": "string" },
+                  "responsibility": { "type": "string" },
+                  "verifying_document": { "type": "string" },
+                  "record_form": { "type": "string" },
+                  "acceptance_criteria": { "type": "string" },
+                  "acceptance_source": { "type": "string" }
+                },
+                "required": ["activity"]
+              }
+            }
+          }
+        },
+        "Create_ITP_register_header": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Parse_activities": ["Succeeded"] },
+          "comment": "Create eka_itpregister header row. Status Draft; DRAFT marker carried.",
+          "inputs": {
+            "host": { "connectionName": "shared_commondataserviceforapps", "operationId": "CreateRecord" },
+            "parameters": {
+              "entityName": "eka_itpregisters",
+              "item/eka_name": "@triggerBody()?['title']",
+              "item/eka_project": "@triggerBody()?['project']",
+              "item/eka_assettype": "@triggerBody()?['assetType']",
+              "item/eka_capability": "itp",
+              "item/eka_scopeofwork": "@triggerBody()?['scopeOfWork']",
+              "item/eka_status": "Draft",
+              "item/eka_draftmarker": "@parameters('draftMarker')"
+            }
+          }
+        },
+        "Generate_line_items": {
+          "type": "Foreach",
+          "runAfter": { "Create_ITP_register_header": ["Succeeded"] },
+          "comment": "One eka_itplineitem per activity, in input order (iterationCount preserves eka_sequence). Mirrors prototypes/itp/itp_generator.py build_line_item.",
+          "foreach": "@body('Parse_activities')",
+          "runtimeConfiguration": { "concurrency": { "repetitions": 1 } },
+          "actions": {
+            "Normalise_inspection_point_code": {
+              "type": "Compose",
+              "runAfter": {},
+              "comment": "Reproduces prototypes/itp/itp_generator.py normalise_inspection_point: trim+uppercase the raw value and map Hold/Witness/Review/Monitor/Surveillance synonyms onto the H/W/R/M codes. Unknown/empty falls back to DEFAULT_INSPECTION_POINT 'R' (Review) - never silently Hold.",
+              "inputs": "@if(or(equals(toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], ''))), 'H'), equals(toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], ''))), 'HOLD'), equals(toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], ''))), 'HOLD POINT')), 'H', if(or(equals(toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], ''))), 'W'), equals(toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], ''))), 'WITNESS'), equals(toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], ''))), 'WITNESS POINT')), 'W', if(or(equals(toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], ''))), 'M'), equals(toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], ''))), 'MONITOR'), equals(toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], ''))), 'SURVEILLANCE')), 'M', 'R')))"
+            },
+            "Compose_point_defaulted": {
+              "type": "Compose",
+              "runAfter": { "Normalise_inspection_point_code": ["Succeeded"] },
+              "comment": "True when the raw inspection point was empty or an unrecognised synonym and therefore defaulted to Review. Mirrors the prototype's point_defaulted flag; drives the '(confirm)' annotation the document-generation step prints.",
+              "inputs": "@not(contains(createArray('H','HOLD','HOLD POINT','W','WITNESS','WITNESS POINT','R','REVIEW','M','MONITOR','SURVEILLANCE'), toUpper(trim(coalesce(items('Generate_line_items')?['inspection_point'], '')))))"
+            },
+            "Map_inspection_point_choice": {
+              "type": "Compose",
+              "runAfter": { "Compose_point_defaulted": ["Succeeded"] },
+              "comment": "Map the H/W/R/M code to the eka_inspectiontype choice value defined in schemas/dataverse/itp-register.json (Hold Point / Witness Point / Review / Monitor).",
+              "inputs": "@if(equals(outputs('Normalise_inspection_point_code'), 'H'), 'Hold Point', if(equals(outputs('Normalise_inspection_point_code'), 'W'), 'Witness Point', if(equals(outputs('Normalise_inspection_point_code'), 'M'), 'Monitor', 'Review')))"
+            },
+            "Create_line_item": {
+              "type": "OpenApiConnection",
+              "runAfter": { "Map_inspection_point_choice": ["Succeeded"] },
+              "comment": "Acceptance criteria: carry a verbatim criterion ONLY when both acceptance_criteria and acceptance_source are supplied; otherwise emit the placeholder. eka_sequence preserves input order (1-based). eka_inspectiontype carries the normalised H/W/R/M classification mapped to the register choice; a defaulted (Review) point is surfaced as '(confirm)' in the generated document, matching the prototype.",
+              "inputs": {
+                "host": { "connectionName": "shared_commondataserviceforapps", "operationId": "CreateRecord" },
+                "parameters": {
+                  "entityName": "eka_itplineitems",
+                  "item/eka_name": "@items('Generate_line_items')?['activity']",
+                  "item/eka_itpregisterid@odata.bind": "@concat('eka_itpregisters(', outputs('Create_ITP_register_header')?['body/eka_itpregisterid'], ')')",
+                  "item/eka_sequence": "@add(iterationIndexes('Generate_line_items'), 1)",
+                  "item/eka_acceptancecriteria": "@if(and(not(empty(coalesce(items('Generate_line_items')?['acceptance_criteria'], ''))), not(empty(coalesce(items('Generate_line_items')?['acceptance_source'], '')))), concat(items('Generate_line_items')?['acceptance_criteria'], ' (source: ', items('Generate_line_items')?['acceptance_source'], ')'), outputs('Compose_acceptance_placeholder'))",
+                  "item/eka_referencedocument": "@outputs('Resolve_standard_label')",
+                  "item/eka_inspectiontype": "@outputs('Map_inspection_point_choice')",
+                  "item/eka_responsibleparty": "@items('Generate_line_items')?['responsibility']",
+                  "item/eka_recordrequired": "@items('Generate_line_items')?['record_form']"
+                }
+              }
+            }
+          }
+        },
+        "Generate_ITP_document": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Generate_line_items": ["Succeeded"] },
+          "comment": "Populate the ITP template (Word/SharePoint template or Office Script over templates/itp/itp-template.md) with header + line-item table and the visible DRAFT marker.",
+          "inputs": {
+            "host": { "connectionName": "shared_wordonlinebusiness", "operationId": "PopulateWordTemplate" },
+            "parameters": {
+              "source": "@parameters('siteAddress')",
+              "documentLibrary": "[PLACEHOLDER - ITP template library/GUID]",
+              "file": "[PLACEHOLDER - itp-template file id]",
+              "draftMarker": "@parameters('draftMarker')"
+            }
+          }
+        },
+        "Store_draft_in_GeneratedDeliverables": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Generate_ITP_document": ["Succeeded"] },
+          "comment": "Create the ITP document (content type ITP, DeliverableType itp) and link it to the register header.",
+          "inputs": {
+            "host": { "connectionName": "shared_sharepointonline", "operationId": "CreateFile" },
+            "parameters": {
+              "dataset": "@parameters('siteAddress')",
+              "folderPath": "@parameters('generatedDeliverablesLibrary')",
+              "name": "@concat(triggerBody()?['title'], ' (DRAFT).docx')",
+              "body": "@body('Generate_ITP_document')"
+            }
+          }
+        },
+        "Write_SharePoint_url_to_header": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Store_draft_in_GeneratedDeliverables": ["Succeeded"] },
+          "inputs": {
+            "host": { "connectionName": "shared_commondataserviceforapps", "operationId": "UpdateRecord" },
+            "parameters": {
+              "entityName": "eka_itpregisters",
+              "recordId": "@outputs('Create_ITP_register_header')?['body/eka_itpregisterid']",
+              "item/eka_sharepointdocurl": "@body('Store_draft_in_GeneratedDeliverables')?['{Link}']"
+            }
+          }
+        },
+        "Route_for_engineering_review": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Write_SharePoint_url_to_header": ["Succeeded"] },
+          "comment": "Start a qualified-engineer approval. On sign-off: set eka_status Approved, record eka_reviewedby, clear DRAFT marker. Until then the ITP is not authoritative.",
+          "inputs": {
+            "host": { "connectionName": "shared_approvals", "operationId": "StartAndWaitForAnApproval" },
+            "parameters": {
+              "approvalType": "Basic",
+              "title": "@concat('ITP review required (DRAFT): ', triggerBody()?['title'])",
+              "assignedTo": "[PLACEHOLDER - responsible engineer]"
+            }
+          }
+        },
+        "Write_generation_audit_entry": {
+          "type": "OpenApiConnection",
+          "runAfter": { "Route_for_engineering_review": ["Succeeded", "Failed", "Skipped"] },
+          "comment": "Record the generation request in the Dataverse generation audit (schemas/dataverse/generation-audit.json). Field names match the eka_generationrequest table exactly, consistent with the commissioning flow. Asset type and project are captured inside eka_requestinput (the table has no dedicated columns for them).",
+          "inputs": {
+            "host": { "connectionName": "shared_commondataserviceforapps", "operationId": "CreateRecord" },
+            "parameters": {
+              "entityName": "eka_generationrequests",
+              "item/eka_name": "@concat('ITP: ', triggerBody()?['title'])",
+              "item/eka_deliverabletype": "itp",
+              "item/eka_requestedon": "@utcNow()",
+              "item/eka_requestinput": "@concat('assetType=', triggerBody()?['assetType'], '; project=', triggerBody()?['project'], '; activities=', string(length(body('Parse_activities'))))",
+              "item/eka_templateused": "templates/itp/itp-template.md",
+              "item/eka_outputdocurl": "@body('Store_draft_in_GeneratedDeliverables')?['{Link}']",
+              "item/eka_status": "Draft"
+            }
+          }
+        },
+        "Respond_to_app": {
+          "type": "Response",
+          "kind": "PowerApp",
+          "runAfter": { "Write_generation_audit_entry": ["Succeeded"] },
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "itpRegisterId": "@outputs('Create_ITP_register_header')?['body/eka_itpregisterid']",
+              "documentUrl": "@body('Store_draft_in_GeneratedDeliverables')?['{Link}']",
+              "status": "Draft",
+              "draftMarker": "@parameters('draftMarker')"
+            }
+          }
+        }
+      },
+      "else": {
+        "actions": {
+          "Terminate_invalid_asset_type": {
+            "type": "Terminate",
+            "runAfter": {},
+            "comment": "Fail-safe: do not generate an ITP with an unknown asset type; the two standard families must never be blended.",
+            "inputs": {
+              "runStatus": "Failed",
+              "runError": {
+                "code": "InvalidAssetType",
+                "message": "assetType must be Transmission, Distribution, or Not asset-specific."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "outputs": {}
+}

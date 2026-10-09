@@ -1,0 +1,77 @@
+{
+  "$schema": "https://example.org/eka/copilot-topic.schema.json",
+  "topic": {
+    "name": "generate-technical-query",
+    "displayName": "Generate a technical query",
+    "capability": "tech-query",
+    "version": "0.1.0",
+    "status": "Draft",
+    "description": "Collects the fields for a formal technical query, attempts a grounded draft response with citations, writes a Draft record to the technical-query register, and produces a deliverable from the technical-query template carrying the 'DRAFT — pending engineering review' marker. Human-in-the-loop: the draft is routed for qualified-engineer review. Tenant-neutral declarative design.",
+    "triggerPhrases": [
+      "generate a technical query",
+      "raise a technical query",
+      "create a TQ",
+      "log a technical query",
+      "draft a technical query"
+    ],
+    "slots": [
+      { "name": "project", "displayName": "Project", "type": "string", "required": true, "prompt": "Which project is this technical query for?" },
+      { "name": "discipline", "displayName": "Discipline", "type": "choice", "choices": ["Pipeline", "Mechanical", "Welding", "Civil", "Instrumentation & Control", "Integrity", "Commissioning"], "required": true, "prompt": "Which discipline does the query relate to?" },
+      { "name": "assetType", "displayName": "Asset type", "type": "choice", "choices": ["Transmission", "Distribution", "Not asset-specific"], "required": true, "prompt": "Transmission (AS 2885) or distribution (AS/NZS 4645)? Required so the two are not mixed." },
+      { "name": "standardReference", "displayName": "Standard reference", "type": "choice", "choices": ["AS 2885.1", "AS 2885.2", "AS 2885.3", "AS/NZS 4645.1", "AS/NZS 4645.2", "AS/NZS 4645.3", "Other", "None"], "required": false, "prompt": "Which standard does this relate to? (label only; optional)" },
+      { "name": "question", "displayName": "Question", "type": "string", "required": true, "prompt": "State the technical query / question." },
+      { "name": "supportingContext", "displayName": "Supporting context", "type": "string", "required": false, "prompt": "Any supporting context, references, or background? (optional)" }
+    ],
+    "groundingAction": {
+      "type": "sharepoint-knowledge-retrieval",
+      "reuseTopic": "ask-engineering-question",
+      "rules": [
+        "Attempt a grounded draft response using the same sources and retrieval rules as ask-engineering-question.",
+        "Never invent clause numbers, acceptance criteria, or requirements. If no groundable source supports a response, leave the response blank and state that a qualified engineer must respond.",
+        "StandardsExtracts grounding only when LicenceConfirmed = Yes (OQ-1 precondition)."
+      ]
+    },
+    "writeActions": [
+      {
+        "type": "dataverse-create",
+        "target": { "table": "eka_technicalquery" },
+        "fieldMapping": {
+          "eka_name": "generated TQ number",
+          "eka_question": "{question}",
+          "eka_response": "grounded draft response (may be empty pending engineer input)",
+          "eka_project": "{project}",
+          "eka_assettype": "{assetType}",
+          "eka_capability": "tech-query",
+          "eka_sourcecitations": "citations from the grounding action",
+          "eka_status": "Draft",
+          "eka_raisedby": "current user"
+        }
+      },
+      {
+        "type": "sharepoint-create-deliverable",
+        "target": { "library": "GeneratedDeliverables", "contentType": "Technical Query" },
+        "fromTemplate": "../../templates/tech-query/technical-query-template.md",
+        "fieldMapping": {
+          "DeliverableType": "technical-query",
+          "DocumentStatus": "Draft",
+          "DraftMarker": "DRAFT — pending engineering review",
+          "GeneratedBy": "tech-query",
+          "AssetType": "{assetType}",
+          "StandardReference": "{standardReference}",
+          "QueryRaisedBy": "current user",
+          "SourceDocuments": "citations from the grounding action"
+        }
+      }
+    ],
+    "output": {
+      "deliverable": {
+        "type": "document",
+        "draftMarker": "DRAFT — pending engineering review",
+        "status": "Draft",
+        "citationsIncluded": true
+      },
+      "humanInTheLoop": "The draft TQ record and deliverable are routed for qualified-engineer review and close-out. The assistant drafts and advises; the engineer decides. The DRAFT marker and status Draft remain until sign-off.",
+      "uncertaintyFallback": "If the response cannot be grounded, record the question only, leave the response for the engineer, and state that clearly. Never fabricate a response."
+    }
+  }
+}

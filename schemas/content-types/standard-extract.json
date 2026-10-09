@@ -1,0 +1,40 @@
+{
+  "$schema": "https://example.org/eka/content-type.schema.json",
+  "contentType": {
+    "name": "Standards Extract",
+    "internalName": "StandardsExtract",
+    "id": "0x0101EKA000000000000000000000000001A1",
+    "group": "Engineering Knowledge Assistant",
+    "parentContentType": "Base Engineering Document",
+    "parentId": "0x0101EKA000000000000000000000000001",
+    "description": "Licensed standards extract (AS2885, AS4645, welding, etc.). Grounding is gated by LicenceConfirmed (OQ-1). Clause/section numbers are only recorded when printed in the licensed source; otherwise a marked placeholder is used. Mirrors information-architecture.md section 4.2.",
+    "targetLibrary": "StandardsExtracts",
+    "inheritsBaseColumns": true,
+    "columnOverrides": [
+      {
+        "internalName": "StandardReference",
+        "required": true,
+        "description": "The standard this extract belongs to (required for this content type)."
+      }
+    ],
+    "columns": [
+      {
+        "name": "ClauseSectionRef",
+        "internalName": "ClauseSectionRef",
+        "type": "Text",
+        "required": false,
+        "termSet": null,
+        "description": "Clause/section identifier AS PRINTED IN THE LICENSED SOURCE ONLY; otherwise '[PLACEHOLDER - to be filled from licensed <standard> <clause> rev <year>]'. Never fabricated."
+      },
+      {
+        "name": "LicenceConfirmed",
+        "internalName": "LicenceConfirmed",
+        "type": "Boolean",
+        "required": true,
+        "termSet": null,
+        "defaultValue": false,
+        "description": "Licensing gate tied to OQ-1. No means the extract is NOT groundable."
+      }
+    ]
+  }
+}
