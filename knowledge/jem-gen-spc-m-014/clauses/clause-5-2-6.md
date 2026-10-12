@@ -10,7 +10,7 @@ hold_witness_point: false
 source_page: 12
 references: ["ASME B1.20.1"]
 cross_references: []
-atom_count: 4
+atom_count: 5
 status: Draft
 ---
 
@@ -18,7 +18,7 @@ status: Draft
 
 Section 5 · JEM-GEN-SPC-M-014 v4 · source page 12
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:5.2.6:R01
 
@@ -29,17 +29,23 @@ Section 5 · JEM-GEN-SPC-M-014 v4 · source page 12
 
 ### JEM-GEN-SPC-M-014:5.2.6:R02
 
-- **modality:** not_permitted
+- **modality:** shall
 
-> A proprietary lubricant is to be used; no worn or damaged dies are permitted; cut threads are to be protected.
+> A proprietary lubricant is to be used; cut threads are to be protected.
 
 ### JEM-GEN-SPC-M-014:5.2.6:R03
+
+- **modality:** not_permitted
+
+> No worn or damaged dies are permitted.
+
+### JEM-GEN-SPC-M-014:5.2.6:R04
 
 - **modality:** shall
 
 > Tapered safety cuts are to be made on plugs.
 
-### JEM-GEN-SPC-M-014:5.2.6:R04
+### JEM-GEN-SPC-M-014:5.2.6:R05
 
 - **modality:** shall
 

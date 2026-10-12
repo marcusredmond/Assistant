@@ -22,7 +22,7 @@ Section 3 · JEM-GEN-SPC-M-014 v4 · source page 5
 
 **Contains HOLD / WITNESS points.**
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:3.1:R01
 

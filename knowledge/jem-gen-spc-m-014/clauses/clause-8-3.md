@@ -18,16 +18,16 @@ status: Draft
 
 Section 8 · JEM-GEN-SPC-M-014 v4 · source page 40
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:8.3:R01
 
-- **modality:** informational
+- **modality:** shall
 
 > Drain immediately; remove sections as needed; drain valve cavities and de-watering fluid.
 
 ### JEM-GEN-SPC-M-014:8.3:R02
 
-- **modality:** informational
+- **modality:** shall
 
 > Dry with warm dehydrated air at dewpoint -40°C; accept as dry when exit air dewpoint is -20°C for three successive 10-minute-interval measurements; Contractor equipment.

@@ -18,10 +18,10 @@ status: Draft
 
 Section 6 · JEM-GEN-SPC-M-014 v4 · source page 29
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:6.5.11:R01
 
-- **modality:** informational
+- **modality:** shall
 
 > Golden weld location/number is per isometrics; changes need Jemena written approval; no golden welds on pipe-to-fitting or fitting-to-fitting; golden welds get complete DPT + complete MPT + 100% RT.

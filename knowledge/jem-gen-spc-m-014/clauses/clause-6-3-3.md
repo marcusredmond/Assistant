@@ -20,7 +20,7 @@ Section 6 · JEM-GEN-SPC-M-014 v4 · source page 22
 
 **Appendix F approval class:** A (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:6.3.3:R01
 

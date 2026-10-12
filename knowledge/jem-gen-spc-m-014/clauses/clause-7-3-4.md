@@ -20,11 +20,11 @@ Section 7 · JEM-GEN-SPC-M-014 v4 · source page 33
 
 **Appendix F approval class:** A (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:7.3.4:R01
 
-- **modality:** informational
+- **modality:** shall
 - **references:** AS 4037
 
 > Ultrasonic examination is per AS4037; a procedure is submitted for approval; scan all surfaces; the probe is within ±10° of normal; critical root scan single-sided; full angle-probe range.

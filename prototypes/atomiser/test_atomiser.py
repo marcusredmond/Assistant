@@ -10,6 +10,7 @@ directory:
 from __future__ import annotations
 
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -47,6 +48,140 @@ class AtomiserTestCase(unittest.TestCase):
                 atomiser.MODALITIES,
                 f"bad modality {a.modality!r} for {a.rule_id}",
             )
+
+    # -- modality CORRECTNESS (safety-critical classifier) --------------------
+
+    def test_derive_modality_prohibitions(self) -> None:
+        # "shall not" / "is not permitted" / directive-negative forms -> not_permitted.
+        for text in (
+            "Welds shall not be left exposed.",
+            "No cold bending is permitted for HP facility.",
+            "No worn or damaged dies are permitted.",
+            "Welder IDs are not to be re-assigned.",
+            "In-line instruments are not to be installed until test is complete.",
+            "No more than two repairs per weld are permitted, else cut out.",
+        ):
+            self.assertEqual(
+                atomiser.derive_modality(text),
+                "not_permitted",
+                f"expected not_permitted for {text!r}",
+            )
+
+    def test_derive_modality_mandatory(self) -> None:
+        # Explicit "shall" and the transcription's directive forms -> shall.
+        for text in (
+            "The Contractor shall submit a Quality Plan.",
+            "Fabrication is to be carried out under an accredited Quality System.",
+            "A Quality Plan is required.",
+            "WPS/WPQR are to be submitted for approval.",
+            "The procedure is to be submitted for approval.",
+        ):
+            self.assertEqual(
+                atomiser.derive_modality(text),
+                "shall",
+                f"expected shall for {text!r}",
+            )
+
+    def test_derive_modality_should_and_may(self) -> None:
+        self.assertEqual(
+            atomiser.derive_modality("The Contractor should minimise flex."),
+            "should",
+        )
+        self.assertEqual(
+            atomiser.derive_modality("UT may be used instead if accepted."),
+            "may",
+        )
+
+    def test_derive_modality_descriptive(self) -> None:
+        # Genuinely definitional/descriptive wording stays informational.
+        for text in (
+            "Defines the terms Contractor, Jemena and Others.",
+            "Lists the Australian Standards referenced by this Specification.",
+            "New materials are addressed under the quality assurance requirements.",
+        ):
+            self.assertEqual(
+                atomiser.derive_modality(text),
+                "informational",
+                f"expected informational for {text!r}",
+            )
+
+    def test_explicit_modality_hint_takes_precedence(self) -> None:
+        # A descriptive sentence carrying an explicit source hint resolves to
+        # the hinted modality - this is the mechanism that re-modalises the
+        # mandatory acceptance limits (review v1 issue 2).
+        descriptive = "Hold for 1 hour; if painted, hold 4 hours."
+        self.assertEqual(atomiser.derive_modality(descriptive), "informational")
+        self.assertEqual(
+            atomiser.derive_modality(descriptive, "shall"), "shall"
+        )
+        # An invalid hint is ignored (falls back to wording-based derivation).
+        self.assertEqual(
+            atomiser.derive_modality(descriptive, "bogus"), "informational"
+        )
+
+    def test_no_informational_atom_carries_a_mandatory_limit(self) -> None:
+        # Safety guard: after re-modalisation via source hints, no atom that
+        # carries a hard quantitative acceptance limit may be left
+        # informational (review v1 issue 2). Order-of-precedence ranked atoms
+        # are intentionally informational and excluded.
+        limit_re = re.compile(
+            r"(\d+\s*(mm|kPag|years|hrs|hours|hour))"
+            r"|\u00b0C"  # degrees Celsius
+            r"|\u2265"  # >=
+            r"|\u00b1"  # +-
+            r"|1\.5 x|6 x|x design pressure"
+        )
+        offenders = [
+            a.rule_id
+            for a in self.atoms
+            if a.modality == "informational"
+            and a.order_of_precedence_rank is None
+            and limit_re.search(a.rule_text)
+        ]
+        self.assertEqual(
+            offenders,
+            [],
+            f"mandatory acceptance limits left informational: {offenders}",
+        )
+
+    def test_known_mandatory_limit_atoms_are_shall(self) -> None:
+        # Pin the specific safety limits the v1 review flagged so they cannot
+        # silently regress back to informational.
+        expected_shall = {
+            "JEM-GEN-SPC-M-014:8.1:R01",  # hydrostatic 1.5 x design pressure
+            "JEM-GEN-SPC-M-014:8.2:R03",  # hold 1 hr / >=4 hr
+            "JEM-GEN-SPC-M-014:8.3:R02",  # dewpoint -40C / -20C
+            "JEM-GEN-SPC-M-014:6.5.7:R02",  # interpass max 300C
+            "JEM-GEN-SPC-M-014:6.5.4:R03",  # four 30 mm tacks
+            "JEM-GEN-SPC-M-014:10.6:R01",  # FAT 30 kPag
+            "JEM-GEN-SPC-M-014:7.4:R02",  # final NDE >=24 hrs
+            "JEM-GEN-SPC-M-014:7.3.3:R01",  # archival film >=7 years
+            "JEM-GEN-SPC-M-014:7.3.2:R04",  # film density 1.7 / 2.5-4.0
+        }
+        by_id = {a.rule_id: a for a in self.atoms}
+        for rid in expected_shall:
+            self.assertIn(rid, by_id, f"missing expected atom {rid}")
+            self.assertEqual(
+                by_id[rid].modality,
+                "shall",
+                f"{rid} must be shall, got {by_id[rid].modality}",
+            )
+
+    def test_compound_split_assigns_distinct_modalities(self) -> None:
+        # The thread-lubricant and welder-ID compound sentences were split so
+        # the leading mandatory requirement is not masked by a trailing
+        # prohibition (review v1 issue 5).
+        by_id = {a.rule_id: a for a in self.atoms}
+        # 5.2.6: lubricant/thread protection (shall) + worn-dies prohibition.
+        self.assertEqual(by_id["JEM-GEN-SPC-M-014:5.2.6:R02"].modality, "shall")
+        self.assertEqual(
+            by_id["JEM-GEN-SPC-M-014:5.2.6:R03"].modality, "not_permitted"
+        )
+        # 6.4: ID recording (shall) + welder-ID re-assignment prohibition.
+        self.assertEqual(by_id["JEM-GEN-SPC-M-014:6.4:R02"].modality, "shall")
+        self.assertEqual(
+            by_id["JEM-GEN-SPC-M-014:6.4:R03"].modality, "not_permitted"
+        )
 
     def test_approval_class_only_abc_or_null(self) -> None:
         for a in self.atoms:

@@ -18,17 +18,17 @@ status: Draft
 
 Section 7 · JEM-GEN-SPC-M-014 v4 · source page 36
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:7.4:R01
 
-- **modality:** informational
+- **modality:** shall
 
 > DNC welds are repaired/replaced per an approved qualified procedure, with repeat NDE except for grinding-only.
 
 ### JEM-GEN-SPC-M-014:7.4:R02
 
-- **modality:** informational
+- **modality:** shall
 
 > Cracked/failed welds are cut out; the same NDE methods apply, with final NDE ≥24 hrs after repair.
 
@@ -40,6 +40,6 @@ Section 7 · JEM-GEN-SPC-M-014 v4 · source page 36
 
 ### JEM-GEN-SPC-M-014:7.4:R04
 
-- **modality:** informational
+- **modality:** shall
 
 > Repaired welds are re-heat-treated if originally heat-treated; minimum remaining wall is ≥ minimum design including corrosion allowance.

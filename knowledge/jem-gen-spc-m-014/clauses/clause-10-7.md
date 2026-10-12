@@ -18,10 +18,10 @@ status: Draft
 
 Section 10 · JEM-GEN-SPC-M-014 v4 · source page 47
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:10.7:R01
 
-- **modality:** informational
+- **modality:** shall
 
 > Seal open ends with temporary blind flanges; seal-weld steel cape at pipe ends until tie-in; apply lubricant/grease on machined surfaces with temporary covers.

@@ -20,7 +20,7 @@ Section 7 · JEM-GEN-SPC-M-014 v4 · source page 32
 
 **Appendix F approval class:** B (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:7.3.2:R01
 
@@ -37,14 +37,14 @@ Section 7 · JEM-GEN-SPC-M-014 v4 · source page 32
 
 ### JEM-GEN-SPC-M-014:7.3.2:R03
 
-- **modality:** informational
+- **modality:** shall
 - **references:** AS 2177
 
 > A source-side wire IQI per AS2177 is used; single wall single image; lead screens and fine-grain high-contrast film.
 
 ### JEM-GEN-SPC-M-014:7.3.2:R04
 
-- **modality:** informational
+- **modality:** shall
 - **references:** AS 4037
 
 > Minimum film density is 1.7 through the weld and parent 2.5–4.0 for x-ray; no fluorescent screens; sensitivity/unsharpness per AS4037.

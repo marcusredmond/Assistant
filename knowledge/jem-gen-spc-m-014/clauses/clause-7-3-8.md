@@ -18,11 +18,11 @@ status: Draft
 
 Section 7 · JEM-GEN-SPC-M-014 v4 · source page 35
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:7.3.8:R01
 
-- **modality:** informational
+- **modality:** shall
 - **references:** AS 4037
 
 > Acceptance criteria are per AS4037 Very Harmful Gas fluid service.

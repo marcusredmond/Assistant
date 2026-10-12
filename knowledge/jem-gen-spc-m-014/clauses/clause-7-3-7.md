@@ -20,11 +20,11 @@ Section 7 · JEM-GEN-SPC-M-014 v4 · source page 35
 
 **Appendix F approval class:** A (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:7.3.7:R01
 
-- **modality:** informational
+- **modality:** shall
 - **cross_references:** Appendix F
 
 > An NDE test report per NATA and code is submitted to Jemena.

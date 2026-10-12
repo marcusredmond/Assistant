@@ -18,11 +18,11 @@ status: Draft
 
 Section 7 · JEM-GEN-SPC-M-014 v4 · source page 34
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:7.3.6:R01
 
-- **modality:** informational
+- **modality:** shall
 - **references:** AS 4037
 
 > DPI is per AS4037, solvent removable unless requested; light dressing is allowed; indications are ground and thickness checked.

@@ -18,7 +18,7 @@ status: Draft
 
 Section 5 · JEM-GEN-SPC-M-014 v4 · source page 15
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:5.4.3:R01
 
@@ -29,6 +29,6 @@ Section 5 · JEM-GEN-SPC-M-014 v4 · source page 15
 
 ### JEM-GEN-SPC-M-014:5.4.3:R02
 
-- **modality:** informational
+- **modality:** shall
 
 > Operator positioning follows an order of preference; actuated valves are installed per the manufacturer.

@@ -18,11 +18,11 @@ status: Draft
 
 Section 6 · JEM-GEN-SPC-M-014 v4 · source page 26
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:6.5.5:R01
 
-- **modality:** informational
+- **modality:** shall
 - **cross_references:** 4.2
 
 > Adequate controls with calibrated meters; individual earthing; no floating/temporary earths; non-arcing ground clamps; consumable control per 4.2.

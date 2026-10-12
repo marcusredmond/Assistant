@@ -20,11 +20,11 @@ Section 10 · JEM-GEN-SPC-M-014 v4 · source page 45
 
 **Appendix F approval class:** A (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:10.4:R01
 
-- **modality:** informational
+- **modality:** shall
 - **cross_references:** Appendix F
 
 > The MDR is submitted concurrent with the completion notice; Jemena reviews non-conformances; no time extension; Liquidated Damages apply.

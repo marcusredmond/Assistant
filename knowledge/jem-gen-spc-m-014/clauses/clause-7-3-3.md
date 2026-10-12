@@ -18,10 +18,10 @@ status: Draft
 
 Section 7 · JEM-GEN-SPC-M-014 v4 · source page 33
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:7.3.3:R01
 
-- **modality:** informational
+- **modality:** shall
 
 > Archival film life is ≥7 years; manufacturer tests apply; store per NATA.

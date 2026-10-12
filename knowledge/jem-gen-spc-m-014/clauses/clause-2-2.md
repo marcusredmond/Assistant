@@ -18,7 +18,7 @@ status: Draft
 
 Section 2 · JEM-GEN-SPC-M-014 v4 · source page 3
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:2.2:R01
 

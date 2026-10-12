@@ -20,11 +20,11 @@ Section 7 · JEM-GEN-SPC-M-014 v4 · source page 37
 
 **Appendix F approval class:** C (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:7.4.1:R01
 
-- **modality:** informational
+- **modality:** shall
 - **cross_references:** Appendix F
 
 > Surface flaws are removed by gouging/grinding to a smooth transition and re-NDE'd; a repair is proposed if below minimum design.

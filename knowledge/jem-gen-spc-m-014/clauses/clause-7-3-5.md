@@ -18,11 +18,11 @@ status: Draft
 
 Section 7 · JEM-GEN-SPC-M-014 v4 · source page 34
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:7.3.5:R01
 
-- **modality:** informational
+- **modality:** shall
 - **references:** AS 4037
 
 > MPI is per AS4037, in continuous mode, with two exams at right angles and 100% overlap; indications are ground and thickness checked.

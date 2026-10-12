@@ -18,7 +18,7 @@ status: Draft
 
 Section 5 · JEM-GEN-SPC-M-014 v4 · source page 11
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:5.2.5:R01
 
@@ -29,13 +29,13 @@ Section 5 · JEM-GEN-SPC-M-014 v4 · source page 11
 
 ### JEM-GEN-SPC-M-014:5.2.5:R02
 
-- **modality:** may
+- **modality:** shall
 
 > Linear tolerance is ±1.5 mm for spools ≤1.5 m and ±3.0 mm for spools >1.5 m; closer tolerances may be specified; tolerances are not cumulative.
 
 ### JEM-GEN-SPC-M-014:5.2.5:R03
 
-- **modality:** informational
+- **modality:** shall
 
 > Angular tolerance is ±0.50°.
 

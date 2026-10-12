@@ -20,11 +20,11 @@ Section 8 · JEM-GEN-SPC-M-014 v4 · source page 38
 
 **Appendix F approval class:** A (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:8.1:R01
 
-- **modality:** informational
+- **modality:** shall
 - **cross_references:** Appendix F
 
 > Pressure testing is witnessed by Jemena; hydrostatic test is 1.5 x design pressure; then drain/dry/pneumatic 1,000 kPag compressed nitrogen; 5 days notice.

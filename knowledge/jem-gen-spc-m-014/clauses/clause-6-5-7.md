@@ -18,7 +18,7 @@ status: Draft
 
 Section 6 · JEM-GEN-SPC-M-014 v4 · source page 27
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:6.5.7:R01
 
@@ -28,6 +28,6 @@ Section 6 · JEM-GEN-SPC-M-014 v4 · source page 27
 
 ### JEM-GEN-SPC-M-014:6.5.7:R02
 
-- **modality:** informational
+- **modality:** shall
 
 > Temperature is measured on the opposite face or after waiting 1 min/25 mm; heaters are allowed; no cutting-torch preheat; maximum interpass is 300°C for carbon steels.

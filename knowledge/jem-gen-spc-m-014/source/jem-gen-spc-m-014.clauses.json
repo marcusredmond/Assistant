@@ -120,7 +120,7 @@
       "source_page": 6,
       "obligations": [
         { "text": "Material control procedures are to be in place before work commences; traceable certification is to be retained in the MDR." },
-        { "text": "Material control covers receipt/verification; sub-contractor traceability; consumable traceability; handling; storage; marking/identification; quarantine; and a materials register subject to audit." }
+        { "text": "Material control covers receipt/verification; sub-contractor traceability; consumable traceability; handling; storage; marking/identification; quarantine; and a materials register subject to audit.", "modality": "shall" }
       ]
     },
     {
@@ -226,7 +226,7 @@
       "obligations": [
         { "text": "Longitudinal seams are to be offset a minimum of 90° or 250 mm whichever is smaller." },
         { "text": "The minimum girth-weld distance is 1.5 x pipe diameter; approval is required if this is not met.", "transcription_note": "Footnote in source: See AS2885.2 Clause 5.13 Distance between welds.", "references": [{ "standard": "AS 2885.2", "clause": "5.13", "title": "Distance between welds", "licensing": "copyrighted_external" }] },
-        { "text": "The minimum branch-weld distance is 6 x wall thickness; closer if PWHT." },
+        { "text": "The minimum branch-weld distance is 6 x wall thickness; closer if PWHT.", "modality": "shall", "modality_note": "Mandatory minimum weld-spacing limit (6 x wall thickness). Set to shall (review v1 issue 2)." },
         { "text": "Branch and non-pressure welds are not to cross seams or butt welds, with toe-to-toe separation; avoid more than 2 weld intersections." }
       ]
     },
@@ -258,8 +258,8 @@
       "source_page": 11,
       "obligations": [
         { "text": "Dimensions and tolerances are to be in accordance with AS4041 or AS 2885.", "references": [{ "standard": "AS 4041", "licensing": "copyrighted_external" }, { "standard": "AS 2885", "licensing": "copyrighted_external" }] },
-        { "text": "Linear tolerance is ±1.5 mm for spools ≤1.5 m and ±3.0 mm for spools >1.5 m; closer tolerances may be specified; tolerances are not cumulative." },
-        { "text": "Angular tolerance is ±0.50°." },
+        { "text": "Linear tolerance is ±1.5 mm for spools ≤1.5 m and ±3.0 mm for spools >1.5 m; closer tolerances may be specified; tolerances are not cumulative.", "modality": "shall", "modality_note": "Mandatory dimensional tolerance limits (+-1.5 mm / +-3.0 mm). Set to shall; the sentence also notes closer tolerances may be specified (review v1 issue 2)." },
+        { "text": "Angular tolerance is ±0.50°.", "modality": "shall", "modality_note": "Mandatory angular tolerance limit (+-0.50 deg). Set to shall (review v1 issue 2)." },
         { "text": "Flange bolt-hole misalignment is to be ≤1.5 mm and to straddle centre lines ±0.50°." },
         { "text": "Flange face offset from square is to be ≤¼° or 1 mm whichever is smaller; mating flanges are to be parallel." }
       ]
@@ -271,7 +271,8 @@
       "source_page": 12,
       "obligations": [
         { "text": "Threads are to be NPT unless otherwise specified, in accordance with ASME B1.20.1 and per the piping class data sheet.", "references": [{ "standard": "ASME B1.20.1", "licensing": "copyrighted_external" }] },
-        { "text": "A proprietary lubricant is to be used; no worn or damaged dies are permitted; cut threads are to be protected." },
+        { "text": "A proprietary lubricant is to be used; cut threads are to be protected.", "modality": "shall", "split_note": "Split from a single source sentence 'A proprietary lubricant is to be used; no worn or damaged dies are permitted; cut threads are to be protected.' so the mandatory requirement and the prohibition each carry their correct modality (review v1 issue 5). No wording changed beyond separating the clauses." },
+        { "text": "No worn or damaged dies are permitted.", "modality": "not_permitted", "split_note": "Prohibition split from the compound thread-lubricant sentence (review v1 issue 5)." },
         { "text": "Tapered safety cuts are to be made on plugs." },
         { "text": "Threads are to be cut after heat treatment where possible, else chased/tapped after heat treatment." }
       ]
@@ -320,7 +321,7 @@
       "source_page": 15,
       "obligations": [
         { "text": "In-line valves are to be installed per drawings and operable, in accordance with GTS-960-SP-ME-010.", "references": [{ "standard": "GTS-960-SP-ME-010", "title": "valve installation", "licensing": "jemena_owned" }] },
-        { "text": "Operator positioning follows an order of preference; actuated valves are installed per the manufacturer." }
+        { "text": "Operator positioning follows an order of preference; actuated valves are installed per the manufacturer.", "modality": "shall" }
       ]
     },
     {
@@ -429,7 +430,7 @@
       "obligations": [
         { "text": "No repair of qualification welds is permitted; calibrated equipment with certificates reviewed; a qualified monitor; the Contractor is responsible for NDE/destructive testing per 6.3.2.", "cross_references": ["6.3.2", "Appendix F"] },
         { "text": "Test welds are to be cleared by NDE before mechanical testing unless Jemena approves otherwise; mechanical testing is per AS3992/AS4041.", "references": [{ "standard": "AS/NZS 3992", "licensing": "copyrighted_external" }, { "standard": "AS 4041", "licensing": "copyrighted_external" }], "cross_references": ["Appendix F"] },
-        { "text": "Charpy of ASTM A106 Gr. B is tested at minimum design temperature, evaluated per AS4041; mechanical testing is by an independent NATA lab.", "references": [{ "standard": "ASTM A106 Gr. B", "licensing": "copyrighted_external" }, { "standard": "AS 4041", "licensing": "copyrighted_external" }] }
+        { "text": "Charpy of ASTM A106 Gr. B is tested at minimum design temperature, evaluated per AS4041; mechanical testing is by an independent NATA lab.", "modality": "shall", "references": [{ "standard": "ASTM A106 Gr. B", "licensing": "copyrighted_external" }, { "standard": "AS 4041", "licensing": "copyrighted_external" }] }
       ]
     },
     {
@@ -468,7 +469,8 @@
       "source_page": 23,
       "obligations": [
         { "text": "Pipe welds are to be qualified per AS3992/AS4041; an experienced certified welding supervisor is required per AS4041.", "references": [{ "standard": "AS/NZS 3992", "licensing": "copyrighted_external" }, { "standard": "AS 4041", "licensing": "copyrighted_external" }], "cross_references": ["Appendix F"] },
-        { "text": "ID numbers are to be recorded on the weld map; records are to be available; welder IDs are not to be re-assigned." }
+        { "text": "ID numbers are to be recorded on the weld map; records are to be available.", "modality": "shall", "split_note": "Split from a single source sentence 'ID numbers are to be recorded on the weld map; records are to be available; welder IDs are not to be re-assigned.' so the mandatory record-keeping requirement and the welder-ID prohibition each carry their correct modality (review v1 issue 5)." },
+        { "text": "Welder IDs are not to be re-assigned.", "modality": "not_permitted", "split_note": "Prohibition split from the compound welder-ID sentence (review v1 issue 5)." }
       ]
     },
     {
@@ -488,7 +490,7 @@
       "clause_title": "Impact Tests",
       "source_page": 25,
       "obligations": [
-        { "text": "ASTM A106 Gr. B Charpy per length is tested at minimum design temperature per AS4041, by an independent NATA lab, with results in the MDR.", "references": [{ "standard": "ASTM A106 Gr. B", "licensing": "copyrighted_external" }, { "standard": "AS 4041", "licensing": "copyrighted_external" }] }
+        { "text": "ASTM A106 Gr. B Charpy per length is tested at minimum design temperature per AS4041, by an independent NATA lab, with results in the MDR.", "modality": "shall", "references": [{ "standard": "ASTM A106 Gr. B", "licensing": "copyrighted_external" }, { "standard": "AS 4041", "licensing": "copyrighted_external" }] }
       ]
     },
     {
@@ -508,7 +510,7 @@
       "obligations": [
         { "text": "Line-up clamps/bridging are to be used with tacks in the bevel; no strong-backs; misalignment per AS4458; no temporary attachments.", "references": [{ "standard": "AS 4458", "licensing": "copyrighted_external" }] },
         { "text": "Stainless tack bridging is to use the root-pass process/consumables." },
-        { "text": "DN 80+ require a minimum of four 30 mm tacks equidistant; remove all tacks; bridge tacks; grind and NDE cracked tacks." }
+        { "text": "DN 80+ require a minimum of four 30 mm tacks equidistant; remove all tacks; bridge tacks; grind and NDE cracked tacks.", "modality": "shall" }
       ]
     },
     {
@@ -517,7 +519,7 @@
       "clause_title": "Welding Equipment",
       "source_page": 26,
       "obligations": [
-        { "text": "Adequate controls with calibrated meters; individual earthing; no floating/temporary earths; non-arcing ground clamps; consumable control per 4.2.", "cross_references": ["4.2"] }
+        { "text": "Adequate controls with calibrated meters; individual earthing; no floating/temporary earths; non-arcing ground clamps; consumable control per 4.2.", "modality": "shall", "cross_references": ["4.2"] }
       ]
     },
     {
@@ -536,7 +538,7 @@
       "source_page": 27,
       "obligations": [
         { "text": "Preheat is required when the WPS requires it or when damp; minimum preheat is per the WPS, established 75 mm either side." },
-        { "text": "Temperature is measured on the opposite face or after waiting 1 min/25 mm; heaters are allowed; no cutting-torch preheat; maximum interpass is 300°C for carbon steels." }
+        { "text": "Temperature is measured on the opposite face or after waiting 1 min/25 mm; heaters are allowed; no cutting-torch preheat; maximum interpass is 300°C for carbon steels.", "modality": "shall", "modality_note": "Mandatory acceptance limit (maximum interpass 300°C). Set to shall so the limit is not surfaced as advisory; the compound sentence also carries the 'no cutting-torch preheat' prohibition (review v1 issue 2)." }
       ]
     },
     {
@@ -572,7 +574,7 @@
       "clause_title": "Golden Welds",
       "source_page": 29,
       "obligations": [
-        { "text": "Golden weld location/number is per isometrics; changes need Jemena written approval; no golden welds on pipe-to-fitting or fitting-to-fitting; golden welds get complete DPT + complete MPT + 100% RT." }
+        { "text": "Golden weld location/number is per isometrics; changes need Jemena written approval; no golden welds on pipe-to-fitting or fitting-to-fitting; golden welds get complete DPT + complete MPT + 100% RT.", "modality": "shall", "modality_note": "Mandatory NDE acceptance requirement (complete DPT + complete MPT + 100% RT). Set to shall; the compound sentence also carries a 'no golden welds on pipe-to-fitting or fitting-to-fitting' prohibition (review v1 issue 2)." }
       ]
     },
     {
@@ -599,7 +601,7 @@
       "clause_title": "Non Destructive Examination - General",
       "source_page": 31,
       "obligations": [
-        { "text": "The Contractor provides equipment/services; all pressure welds are NDE per the project spec; acceptance is per AS4037 Very Harmful Gas fluid service; NDE is 100% unless specified otherwise, per AS4037.", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }], "cross_references": ["Appendix F"] },
+        { "text": "The Contractor provides equipment/services; all pressure welds are NDE per the project spec; acceptance is per AS4037 Very Harmful Gas fluid service; NDE is 100% unless specified otherwise, per AS4037.", "modality": "shall", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }], "cross_references": ["Appendix F"] },
         { "text": "Records are provided to Jemena; the NDE written practice is endorsed; licensed personnel acceptable to Jemena, a NATA-accredited company and NATA signatory are required.", "cross_references": ["Appendix F"] },
         { "text": "Welds are sentenced C/DNC with a report; % welding and repair rate are tracked; for <100% NDE, equal coverage per welder/operator/procedure is required; X-Ray is required, Gamma case-by-case." }
       ]
@@ -612,8 +614,8 @@
       "obligations": [
         { "text": "100% of the nominated weld length is radiographed; UT may be used instead if configuration precludes radiography and Jemena accepts.", "cross_references": ["Appendix F"] },
         { "text": "X-ray fine-grain film is to be used; x-ray is preferred for ≤25 mm wall, gamma case-by-case; radiographic procedures are to be developed." },
-        { "text": "A source-side wire IQI per AS2177 is used; single wall single image; lead screens and fine-grain high-contrast film.", "references": [{ "standard": "AS 2177", "licensing": "copyrighted_external" }] },
-        { "text": "Minimum film density is 1.7 through the weld and parent 2.5–4.0 for x-ray; no fluorescent screens; sensitivity/unsharpness per AS4037.", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] },
+        { "text": "A source-side wire IQI per AS2177 is used; single wall single image; lead screens and fine-grain high-contrast film.", "modality": "shall", "references": [{ "standard": "AS 2177", "licensing": "copyrighted_external" }] },
+        { "text": "Minimum film density is 1.7 through the weld and parent 2.5–4.0 for x-ray; no fluorescent screens; sensitivity/unsharpness per AS4037.", "modality": "shall", "modality_note": "Mandatory film-density acceptance limits (1.7 / 2.5-4.0). Set to shall (review v1 issue 2).", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] },
         { "text": "Qualification radiographs are retained free of masking defects; lead-character ID content a–f; other NDE for clarification; a radiation safety officer, regulations and signage/barriers are required." }
       ]
     },
@@ -623,7 +625,7 @@
       "clause_title": "Radiograph Processing, Control and Testing",
       "source_page": 33,
       "obligations": [
-        { "text": "Archival film life is ≥7 years; manufacturer tests apply; store per NATA." }
+        { "text": "Archival film life is ≥7 years; manufacturer tests apply; store per NATA.", "modality": "shall", "modality_note": "Mandatory archival-retention limit (film life >=7 years). Set to shall (review v1 issue 2)." }
       ]
     },
     {
@@ -632,7 +634,7 @@
       "clause_title": "Ultrasonic Examination",
       "source_page": 33,
       "obligations": [
-        { "text": "Ultrasonic examination is per AS4037; a procedure is submitted for approval; scan all surfaces; the probe is within ±10° of normal; critical root scan single-sided; full angle-probe range.", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] },
+        { "text": "Ultrasonic examination is per AS4037; a procedure is submitted for approval; scan all surfaces; the probe is within ±10° of normal; critical root scan single-sided; full angle-probe range.", "modality": "shall", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] },
         { "text": "A NATA report with technique/defects, sketches, defect-type identification and indication of incomplete coverage is required, to a minimum content list." }
       ]
     },
@@ -642,7 +644,7 @@
       "clause_title": "MPI",
       "source_page": 34,
       "obligations": [
-        { "text": "MPI is per AS4037, in continuous mode, with two exams at right angles and 100% overlap; indications are ground and thickness checked.", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] }
+        { "text": "MPI is per AS4037, in continuous mode, with two exams at right angles and 100% overlap; indications are ground and thickness checked.", "modality": "shall", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] }
       ]
     },
     {
@@ -651,7 +653,7 @@
       "clause_title": "DPI",
       "source_page": 34,
       "obligations": [
-        { "text": "DPI is per AS4037, solvent removable unless requested; light dressing is allowed; indications are ground and thickness checked.", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] }
+        { "text": "DPI is per AS4037, solvent removable unless requested; light dressing is allowed; indications are ground and thickness checked.", "modality": "shall", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] }
       ]
     },
     {
@@ -660,7 +662,7 @@
       "clause_title": "Reporting",
       "source_page": 35,
       "obligations": [
-        { "text": "An NDE test report per NATA and code is submitted to Jemena.", "cross_references": ["Appendix F"] }
+        { "text": "An NDE test report per NATA and code is submitted to Jemena.", "modality": "shall", "cross_references": ["Appendix F"] }
       ]
     },
     {
@@ -669,7 +671,7 @@
       "clause_title": "Acceptance Criteria",
       "source_page": 35,
       "obligations": [
-        { "text": "Acceptance criteria are per AS4037 Very Harmful Gas fluid service.", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] }
+        { "text": "Acceptance criteria are per AS4037 Very Harmful Gas fluid service.", "modality": "shall", "modality_note": "Mandatory weld acceptance criteria. Set to shall (review v1 issue 2).", "references": [{ "standard": "AS 4037", "licensing": "copyrighted_external" }] }
       ]
     },
     {
@@ -678,10 +680,10 @@
       "clause_title": "Repairs",
       "source_page": 36,
       "obligations": [
-        { "text": "DNC welds are repaired/replaced per an approved qualified procedure, with repeat NDE except for grinding-only." },
-        { "text": "Cracked/failed welds are cut out; the same NDE methods apply, with final NDE ≥24 hrs after repair." },
+        { "text": "DNC welds are repaired/replaced per an approved qualified procedure, with repeat NDE except for grinding-only.", "modality": "shall" },
+        { "text": "Cracked/failed welds are cut out; the same NDE methods apply, with final NDE ≥24 hrs after repair.", "modality": "shall", "modality_note": "Mandatory repair-NDE timing limit (final NDE >=24 hrs after repair). Set to shall (review v1 issue 2)." },
         { "text": "No more than two repairs per weld are permitted, else cut out/discard; a defect log is kept for trends." },
-        { "text": "Repaired welds are re-heat-treated if originally heat-treated; minimum remaining wall is ≥ minimum design including corrosion allowance." }
+        { "text": "Repaired welds are re-heat-treated if originally heat-treated; minimum remaining wall is ≥ minimum design including corrosion allowance.", "modality": "shall", "modality_note": "Mandatory remaining-wall acceptance limit (>= minimum design incl. corrosion allowance). Set to shall (review v1 issue 2)." }
       ]
     },
     {
@@ -690,8 +692,8 @@
       "clause_title": "Disposition of Flaws",
       "source_page": 37,
       "obligations": [
-        { "text": "Surface flaws are removed by gouging/grinding to a smooth transition and re-NDE'd; a repair is proposed if below minimum design.", "cross_references": ["Appendix F"] },
-        { "text": "Arc burns are ground + 10% ammonium persulphate etch + UT of remaining thickness; Jemena is notified with a witness option; arc burns/strikes on pressure-retaining components are to be avoided.", "cross_references": ["Appendix F"] }
+        { "text": "Surface flaws are removed by gouging/grinding to a smooth transition and re-NDE'd; a repair is proposed if below minimum design.", "modality": "shall", "cross_references": ["Appendix F"] },
+        { "text": "Arc burns are ground + 10% ammonium persulphate etch + UT of remaining thickness; Jemena is notified with a witness option; arc burns/strikes on pressure-retaining components are to be avoided.", "modality": "shall", "cross_references": ["Appendix F"] }
       ]
     },
     {
@@ -700,7 +702,7 @@
       "clause_title": "General",
       "source_page": 38,
       "obligations": [
-        { "text": "Pressure testing is witnessed by Jemena; hydrostatic test is 1.5 x design pressure; then drain/dry/pneumatic 1,000 kPag compressed nitrogen; 5 days notice.", "cross_references": ["Appendix F"] }
+        { "text": "Pressure testing is witnessed by Jemena; hydrostatic test is 1.5 x design pressure; then drain/dry/pneumatic 1,000 kPag compressed nitrogen; 5 days notice.", "modality": "shall", "cross_references": ["Appendix F"] }
       ]
     },
     {
@@ -709,12 +711,12 @@
       "clause_title": "Hydrostatic Testing",
       "source_page": 38,
       "obligations": [
-        { "text": "The hydrostatic test is a combined strength + leak test per AS4041 or AS 2885; test pressures are per isometrics.", "references": [{ "standard": "AS 4041", "licensing": "copyrighted_external" }, { "standard": "AS 2885", "licensing": "copyrighted_external" }] },
-        { "text": "Potable town water is used, with anti-corrosive additive if valves are present; indoors is preferred and a site hydrotest needs Jemena approval.", "cross_references": ["Appendix F"] },
-        { "text": "Hold for 1 hour with welds unpainted unless approved; if painted, hold ≥4 hours with a chart recorder.", "cross_references": ["Appendix F"] },
-        { "text": "Submit procedures/P&IDs/test package; use NATA-calibrated gauges/thermometers with electronic recording; remove/isolate low-range devices.", "cross_references": ["Appendix F"] },
-        { "text": "Remove control valves/instruments/regulators/tubing and install pups/blinds/plugs; procured equipment need not be hydrotested; manual blow-down/injection valves are hydro-tested ¾ open." },
-        { "text": "No repairs after hydrotest without approval; identical gaskets/bolting to operating duty, replaced after; constant pressure with make-up measured/recorded; dry surface for leak ID; defects located/repaired/retested at Contractor cost.", "cross_references": ["Appendix F"] }
+        { "text": "The hydrostatic test is a combined strength + leak test per AS4041 or AS 2885; test pressures are per isometrics.", "modality": "shall", "references": [{ "standard": "AS 4041", "licensing": "copyrighted_external" }, { "standard": "AS 2885", "licensing": "copyrighted_external" }] },
+        { "text": "Potable town water is used, with anti-corrosive additive if valves are present; indoors is preferred and a site hydrotest needs Jemena approval.", "modality": "shall", "cross_references": ["Appendix F"] },
+        { "text": "Hold for 1 hour with welds unpainted unless approved; if painted, hold ≥4 hours with a chart recorder.", "modality": "shall", "cross_references": ["Appendix F"] },
+        { "text": "Submit procedures/P&IDs/test package; use NATA-calibrated gauges/thermometers with electronic recording; remove/isolate low-range devices.", "modality": "shall", "cross_references": ["Appendix F"] },
+        { "text": "Remove control valves/instruments/regulators/tubing and install pups/blinds/plugs; procured equipment need not be hydrotested; manual blow-down/injection valves are hydro-tested ¾ open.", "modality": "shall" },
+        { "text": "No repairs after hydrotest without approval; identical gaskets/bolting to operating duty, replaced after; constant pressure with make-up measured/recorded; dry surface for leak ID; defects located/repaired/retested at Contractor cost.", "modality": "shall", "cross_references": ["Appendix F"] }
       ]
     },
     {
@@ -723,8 +725,8 @@
       "clause_title": "Dewatering and Drying",
       "source_page": 40,
       "obligations": [
-        { "text": "Drain immediately; remove sections as needed; drain valve cavities and de-watering fluid." },
-        { "text": "Dry with warm dehydrated air at dewpoint -40°C; accept as dry when exit air dewpoint is -20°C for three successive 10-minute-interval measurements; Contractor equipment." }
+        { "text": "Drain immediately; remove sections as needed; drain valve cavities and de-watering fluid.", "modality": "shall" },
+        { "text": "Dry with warm dehydrated air at dewpoint -40°C; accept as dry when exit air dewpoint is -20°C for three successive 10-minute-interval measurements; Contractor equipment.", "modality": "shall" }
       ]
     },
     {
@@ -733,9 +735,9 @@
       "clause_title": "Pneumatic Testing for Assembly Verification",
       "source_page": 41,
       "obligations": [
-        { "text": "Nitrogen >99.9% is used to confirm socket-welded valves are gas tight, on assembled finished skids; socket-welded manual valves are tested closed; remove plugs; this is not for nitrogen injection; reinstate blind flanges.", "cross_references": ["Appendix F"] },
-        { "text": "Use zero-bubble leak detection fluid e.g. Snoop; introduce slowly to 1,000 kPag; hold for inspection; Jemena witnesses." },
-        { "text": "Document failures, await Jemena instruction, retest at Contractor cost if Contractor fault; remove films, reinstate plugs; valves returned full open and secured." }
+        { "text": "Nitrogen >99.9% is used to confirm socket-welded valves are gas tight, on assembled finished skids; socket-welded manual valves are tested closed; remove plugs; this is not for nitrogen injection; reinstate blind flanges.", "modality": "shall", "cross_references": ["Appendix F"] },
+        { "text": "Use zero-bubble leak detection fluid e.g. Snoop; introduce slowly to 1,000 kPag; hold for inspection; Jemena witnesses.", "modality": "shall" },
+        { "text": "Document failures, await Jemena instruction, retest at Contractor cost if Contractor fault; remove films, reinstate plugs; valves returned full open and secured.", "modality": "shall" }
       ]
     },
     {
@@ -744,8 +746,8 @@
       "clause_title": "Protective Coating",
       "source_page": 42,
       "obligations": [
-        { "text": "External coating is per Jemena GTS-960-SP-ME-001; blast/prime after NDE; protect machined surfaces and check records.", "references": [{ "standard": "GTS-960-SP-ME-001", "title": "external coating", "licensing": "jemena_owned" }], "cross_references": ["Appendix F"] },
-        { "text": "Blasting is witnessed by Jemena; welded joints are left exposed until hydrotest per Section 8; a coating inspection report per AS2312 is kept in the MDR.", "references": [{ "standard": "AS 2312", "licensing": "copyrighted_external" }], "cross_references": ["8", "Appendix F"] }
+        { "text": "External coating is per Jemena GTS-960-SP-ME-001; blast/prime after NDE; protect machined surfaces and check records.", "modality": "shall", "references": [{ "standard": "GTS-960-SP-ME-001", "title": "external coating", "licensing": "jemena_owned" }], "cross_references": ["Appendix F"] },
+        { "text": "Blasting is witnessed by Jemena; welded joints are left exposed until hydrotest per Section 8; a coating inspection report per AS2312 is kept in the MDR.", "modality": "shall", "references": [{ "standard": "AS 2312", "licensing": "copyrighted_external" }], "cross_references": ["8", "Appendix F"] }
       ]
     },
     {
@@ -754,8 +756,8 @@
       "clause_title": "Mechanical Inspection",
       "source_page": 43,
       "obligations": [
-        { "text": "The Contractor notifies completion after its own inspection, with 1 week notice.", "cross_references": ["Appendix F"] },
-        { "text": "Mechanical inspection checks: internal clean/dry; correct pressure rating/class per P&ID; tubing/fittings per 5.4.7; steel piping/components/valves/regulators/instruments/flow directions per P&ID; paint/galv thickness/condition/colour with no overspray; frame stable/level/supports; stainless tags per 5.4.8; bolting tightened per manufacturer/Standard/approved Bolt Torque & Tensioning Procedure; record template Appendix C.", "cross_references": ["5.4.7", "5.4.8", "Appendix C"] }
+        { "text": "The Contractor notifies completion after its own inspection, with 1 week notice.", "modality": "shall", "cross_references": ["Appendix F"] },
+        { "text": "Mechanical inspection checks: internal clean/dry; correct pressure rating/class per P&ID; tubing/fittings per 5.4.7; steel piping/components/valves/regulators/instruments/flow directions per P&ID; paint/galv thickness/condition/colour with no overspray; frame stable/level/supports; stainless tags per 5.4.8; bolting tightened per manufacturer/Standard/approved Bolt Torque & Tensioning Procedure; record template Appendix C.", "modality": "shall", "cross_references": ["5.4.7", "5.4.8", "Appendix C"] }
       ]
     },
     {
@@ -782,7 +784,7 @@
       "clause_title": "Contractor submission of MDR",
       "source_page": 45,
       "obligations": [
-        { "text": "The MDR is submitted concurrent with the completion notice; Jemena reviews non-conformances; no time extension; Liquidated Damages apply.", "cross_references": ["Appendix F"] }
+        { "text": "The MDR is submitted concurrent with the completion notice; Jemena reviews non-conformances; no time extension; Liquidated Damages apply.", "modality": "shall", "cross_references": ["Appendix F"] }
       ]
     },
     {
@@ -800,7 +802,7 @@
       "clause_title": "Factory Acceptance Testing (FAT) of Skids",
       "source_page": 46,
       "obligations": [
-        { "text": "Set points are checked for Run 1 & Run 2 per P&ID; the Contractor supplies nitrogen and blind flanges/gaskets; Jemena provides regulators/hoses; the skid is left at a positive 30 kPag nitrogen at completion; records on Appendix E.", "cross_references": ["Appendix E"] }
+        { "text": "Set points are checked for Run 1 & Run 2 per P&ID; the Contractor supplies nitrogen and blind flanges/gaskets; Jemena provides regulators/hoses; the skid is left at a positive 30 kPag nitrogen at completion; records on Appendix E.", "modality": "shall", "modality_note": "Mandatory FAT acceptance condition (skid left at positive 30 kPag nitrogen). Set to shall (review v1 issue 2).", "cross_references": ["Appendix E"] }
       ]
     },
     {
@@ -809,7 +811,7 @@
       "clause_title": "Preservation",
       "source_page": 47,
       "obligations": [
-        { "text": "Seal open ends with temporary blind flanges; seal-weld steel cape at pipe ends until tie-in; apply lubricant/grease on machined surfaces with temporary covers." }
+        { "text": "Seal open ends with temporary blind flanges; seal-weld steel cape at pipe ends until tie-in; apply lubricant/grease on machined surfaces with temporary covers.", "modality": "shall" }
       ]
     },
     {
@@ -818,11 +820,11 @@
       "clause_title": "Storage Handling and Protection",
       "source_page": 48,
       "obligations": [
-        { "text": "A storage/handling procedure is submitted for approval to prevent mechanical/coating damage, weathering and theft.", "cross_references": ["Appendix F"] },
-        { "text": "Minimise pipe flex; no dropping/dragging/skidding; no metal bolsters/chain wrenches." },
-        { "text": "Valves are stored until spools are ready, preventing moisture ingress; globe/gate stored closed, ball/plug fully open; seal open ends." },
-        { "text": "Bolting is stored under cover with lubricant; mask stainless/nameplates/threads/machined surfaces, oil non-stainless; segregate grades." },
-        { "text": "Protect flanges/weld preps/threads; store uncoated flanges/gaskets/bolts indoors dry; use non-metallic or coated slings; damaged materials are replaced/repaired at Contractor cost.", "cross_references": ["Appendix F"] }
+        { "text": "A storage/handling procedure is submitted for approval to prevent mechanical/coating damage, weathering and theft.", "modality": "shall", "cross_references": ["Appendix F"] },
+        { "text": "Minimise pipe flex; no dropping/dragging/skidding; no metal bolsters/chain wrenches.", "modality": "not_permitted", "modality_note": "Compound handling rule led by a 'minimise' directive but dominated by prohibitions (no dropping/dragging/skidding; no metal bolsters/chain wrenches). Tagged not_permitted so the prohibitions are not surfaced as advisory (review v1 issue 5)." },
+        { "text": "Valves are stored until spools are ready, preventing moisture ingress; globe/gate stored closed, ball/plug fully open; seal open ends.", "modality": "shall" },
+        { "text": "Bolting is stored under cover with lubricant; mask stainless/nameplates/threads/machined surfaces, oil non-stainless; segregate grades.", "modality": "shall" },
+        { "text": "Protect flanges/weld preps/threads; store uncoated flanges/gaskets/bolts indoors dry; use non-metallic or coated slings; damaged materials are replaced/repaired at Contractor cost.", "modality": "shall", "cross_references": ["Appendix F"] }
       ]
     },
     {
@@ -831,9 +833,9 @@
       "clause_title": "Packing and Transport",
       "source_page": 50,
       "obligations": [
-        { "text": "Packing is for outdoor unprotected storage; a preservation/protection procedure is submitted for approval.", "cross_references": ["Appendix F"] },
-        { "text": "Transport the full skid with supports/base frame where possible, bolted down, with loose items secured; preserve during storage/fabrication/load-out; seal all openings; apply rust preventative on exposed machined surfaces; hard-stamp-tag loose flanges." },
-        { "text": "Pack loose spools/valves/bolts/gaskets in boxes with no mixed metals per crate; loose valves per API 6D Section 8 additions: plug apertures/vents; no tack-welding protectors; moisture-resistant rigid crates with waterproof plastic envelope, marked per PO; hard-copy certification shipped with the equipment.", "references": [{ "standard": "API 6D", "section": "8", "licensing": "copyrighted_external" }] }
+        { "text": "Packing is for outdoor unprotected storage; a preservation/protection procedure is submitted for approval.", "modality": "shall", "cross_references": ["Appendix F"] },
+        { "text": "Transport the full skid with supports/base frame where possible, bolted down, with loose items secured; preserve during storage/fabrication/load-out; seal all openings; apply rust preventative on exposed machined surfaces; hard-stamp-tag loose flanges.", "modality": "shall" },
+        { "text": "Pack loose spools/valves/bolts/gaskets in boxes with no mixed metals per crate; loose valves per API 6D Section 8 additions: plug apertures/vents; no tack-welding protectors; moisture-resistant rigid crates with waterproof plastic envelope, marked per PO; hard-copy certification shipped with the equipment.", "modality": "shall", "references": [{ "standard": "API 6D", "section": "8", "licensing": "copyrighted_external" }] }
       ]
     }
   ]

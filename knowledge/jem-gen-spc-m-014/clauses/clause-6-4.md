@@ -10,7 +10,7 @@ hold_witness_point: false
 source_page: 23
 references: ["AS/NZS 3992", "AS 4041"]
 cross_references: ["Appendix F"]
-atom_count: 2
+atom_count: 3
 status: Draft
 ---
 
@@ -20,7 +20,7 @@ Section 6 · JEM-GEN-SPC-M-014 v4 · source page 23
 
 **Appendix F approval class:** A (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:6.4:R01
 
@@ -32,6 +32,12 @@ Section 6 · JEM-GEN-SPC-M-014 v4 · source page 23
 
 ### JEM-GEN-SPC-M-014:6.4:R02
 
+- **modality:** shall
+
+> ID numbers are to be recorded on the weld map; records are to be available.
+
+### JEM-GEN-SPC-M-014:6.4:R03
+
 - **modality:** not_permitted
 
-> ID numbers are to be recorded on the weld map; records are to be available; welder IDs are not to be re-assigned.
+> Welder IDs are not to be re-assigned.

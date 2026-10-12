@@ -18,7 +18,7 @@ status: Draft
 
 Section 6 · JEM-GEN-SPC-M-014 v4 · source page 26
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:6.5.4:R01
 
@@ -35,6 +35,6 @@ Section 6 · JEM-GEN-SPC-M-014 v4 · source page 26
 
 ### JEM-GEN-SPC-M-014:6.5.4:R03
 
-- **modality:** informational
+- **modality:** shall
 
 > DN 80+ require a minimum of four 30 mm tacks equidistant; remove all tacks; bridge tacks; grind and NDE cracked tacks.

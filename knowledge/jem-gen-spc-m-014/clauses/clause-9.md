@@ -20,11 +20,11 @@ Section 9 · JEM-GEN-SPC-M-014 v4 · source page 42
 
 **Appendix F approval class:** A (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:9:R01
 
-- **modality:** informational
+- **modality:** shall
 - **references:** GTS-960-SP-ME-001 - external coating
 - **cross_references:** Appendix F
 
@@ -32,7 +32,7 @@ Section 9 · JEM-GEN-SPC-M-014 v4 · source page 42
 
 ### JEM-GEN-SPC-M-014:9:R02
 
-- **modality:** informational
+- **modality:** shall
 - **references:** AS 2312
 - **cross_references:** 8; Appendix F
 

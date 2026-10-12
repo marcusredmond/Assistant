@@ -20,7 +20,7 @@ Section 6 · JEM-GEN-SPC-M-014 v4 · source page 21
 
 **Appendix F approval class:** A (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:6.3.1:R01
 
@@ -39,7 +39,7 @@ Section 6 · JEM-GEN-SPC-M-014 v4 · source page 21
 
 ### JEM-GEN-SPC-M-014:6.3.1:R03
 
-- **modality:** informational
+- **modality:** shall
 - **references:** ASTM A106 Gr. B; AS 4041
 
 > Charpy of ASTM A106 Gr. B is tested at minimum design temperature, evaluated per AS4041; mechanical testing is by an independent NATA lab.

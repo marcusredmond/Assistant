@@ -18,11 +18,11 @@ status: Draft
 
 Section 6 · JEM-GEN-SPC-M-014 v4 · source page 25
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:6.5.2:R01
 
-- **modality:** informational
+- **modality:** shall
 - **references:** ASTM A106 Gr. B; AS 4041
 
 > ASTM A106 Gr. B Charpy per length is tested at minimum design temperature per AS4041, by an independent NATA lab, with results in the MDR.

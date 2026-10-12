@@ -18,11 +18,11 @@ status: Draft
 
 Section 10 · JEM-GEN-SPC-M-014 v4 · source page 46
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:10.6:R01
 
-- **modality:** informational
+- **modality:** shall
 - **cross_references:** Appendix E
 
 > Set points are checked for Run 1 & Run 2 per P&ID; the Contractor supplies nitrogen and blind flanges/gaskets; Jemena provides regulators/hoses; the skid is left at a positive 30 kPag nitrogen at completion; records on Appendix E.

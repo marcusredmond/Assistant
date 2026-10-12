@@ -20,23 +20,23 @@ Section 8 · JEM-GEN-SPC-M-014 v4 · source page 41
 
 **Appendix F approval class:** A (approval_required = true)
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:8.4:R01
 
-- **modality:** informational
+- **modality:** shall
 - **cross_references:** Appendix F
 
 > Nitrogen >99.9% is used to confirm socket-welded valves are gas tight, on assembled finished skids; socket-welded manual valves are tested closed; remove plugs; this is not for nitrogen injection; reinstate blind flanges.
 
 ### JEM-GEN-SPC-M-014:8.4:R02
 
-- **modality:** informational
+- **modality:** shall
 
 > Use zero-bubble leak detection fluid e.g. Snoop; introduce slowly to 1,000 kPag; hold for inspection; Jemena witnesses.
 
 ### JEM-GEN-SPC-M-014:8.4:R03
 
-- **modality:** informational
+- **modality:** shall
 
 > Document failures, await Jemena instruction, retest at Contractor cost if Contractor fault; remove films, reinstate plugs; valves returned full open and secured.

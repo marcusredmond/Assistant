@@ -14,7 +14,7 @@ assistant to read and identify rules.
 
 Inputs (committed by FEAT-001, under `knowledge/jem-gen-spc-m-014/source/`):
 
-- `jem-gen-spc-m-014.clauses.json` — 11 sections, 78 clauses, 186 obligations.
+- `jem-gen-spc-m-014.clauses.json` — 11 sections, 78 clauses, 188 obligations.
 - `appendix-f.rows.json` — the Appendix F approval-class matrix (55 rows + legend).
 
 Outputs (regenerated into `knowledge/jem-gen-spc-m-014/`):
@@ -35,7 +35,7 @@ Outputs (regenerated into `knowledge/jem-gen-spc-m-014/`):
 | `rule_id` | Stable `JEM-GEN-SPC-M-014:<clause>:R<nn>` (zero-padded per clause). |
 | `doc_id`, `doc_version`, `doc_title`, `supersedes` | Document identity. |
 | `section`, `clause`, `clause_title`, `source_page` | Parent clause traceability. |
-| `rule_text` | **Verbatim** obligation text; never paraphrased. |
+| `rule_text` | Faithful rendering of the supplied source extraction; limits/units preserved verbatim, nothing invented. |
 | `plain_summary` | Null unless supplied; never replaces `rule_text`. |
 | `modality` | One of `shall` / `should` / `may` / `not_permitted` / `prohibited` / `informational`, derived deterministically from wording. |
 | `parameter`, `value`, `operator`, `unit` | Null unless a quantitative limit is explicitly present in the source. Not fabricated; units are not converted. |
@@ -46,8 +46,11 @@ Outputs (regenerated into `knowledge/jem-gen-spc-m-014/`):
 
 ### Deterministic rules
 
-- **Modality** is derived from the verbatim wording (explicit transcription
-  hints win); the `rule_text` is never altered.
+- **Modality** is derived deterministically: an explicit source `modality` hint
+  wins; otherwise it is derived from wording. The hint is used to classify the
+  mandatory acceptance criteria that the condensed source phrased descriptively
+  (e.g. hydrostatic 1.5 x design pressure, interpass 300°C, drying dewpoint, FAT
+  30 kPag). The `rule_text` is never altered to fit a modality.
 - **Appendix F join:** where a clause has multiple Appendix F rows with differing
   classes, the **strictest class (A > B > C)** is applied to that clause's atoms.
 - **Order of Precedence (§2.4)** is emitted as explicit ranked atoms so an agent
@@ -56,8 +59,9 @@ Outputs (regenerated into `knowledge/jem-gen-spc-m-014/`):
 
 ## Safety rules
 
-- `rule_text` is verbatim from the source; clause numbers, limits and acceptance
-  criteria are never invented or paraphrased.
+- `rule_text` is a faithful rendering of the supplied source extraction; all
+  quantitative limits and units are preserved verbatim (never converted) and no
+  clause number, limit or acceptance criterion is invented, dropped or altered.
 - Copyrighted external standards (AS/ASME/AWS/API/EN) are captured as reference
   **pointers / titles only**; their body text is never reproduced. Only
   JEM-/GAS-/GTS- (Jemena-owned) documents may be atomised/grounded.

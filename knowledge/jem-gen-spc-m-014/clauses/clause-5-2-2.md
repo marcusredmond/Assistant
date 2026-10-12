@@ -18,7 +18,7 @@ status: Draft
 
 Section 5 · JEM-GEN-SPC-M-014 v4 · source page 10
 
-## Atomic rules (verbatim)
+## Atomic rules
 
 ### JEM-GEN-SPC-M-014:5.2.2:R01
 
@@ -35,7 +35,7 @@ Section 5 · JEM-GEN-SPC-M-014 v4 · source page 10
 
 ### JEM-GEN-SPC-M-014:5.2.2:R03
 
-- **modality:** informational
+- **modality:** shall
 
 > The minimum branch-weld distance is 6 x wall thickness; closer if PWHT.
 

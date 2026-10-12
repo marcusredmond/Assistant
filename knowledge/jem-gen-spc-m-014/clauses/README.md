@@ -2,7 +2,7 @@
 
 Status: Draft
 
-One Markdown file per clause. Each file carries YAML front-matter with clause metadata and a body listing every obligation's VERBATIM rule text with its stable `rule_id` and derived modality.
+One Markdown file per clause. Each file carries YAML front-matter with clause metadata and a body listing every obligation's rule text (a faithful rendering of the source, limits/units verbatim) with its stable `rule_id` and derived modality.
 
 | Clause | Title | Section | File |
 |---|---|---|---|
