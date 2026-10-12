@@ -1,0 +1,106 @@
+{
+  "$schema": "https://example.org/eka/copilot-topic.schema.json",
+  "topic": {
+    "name": "generate-technical-query",
+    "displayName": "Generate a technical query",
+    "capability": "tech-query",
+    "version": "0.2.0",
+    "status": "Draft",
+    "description": "Collects the Technical Query form fields (Jemena form ES.DEG.FORM.009 Rev A) and produces a populated DRAFT Technical Query. The draft carries the verbatim marker 'DRAFT — pending engineering review' and status Draft until a qualified engineer signs off. Where the query relates to a deviation, it points at the Clause 2.3 deviation path. Tenant-neutral declarative design.",
+    "formNumber": "ES.DEG.FORM.009",
+    "formRevision": "Rev A",
+    "formSchema": "knowledge/jem-gen-spc-m-014/schemas/technical-query-form.json",
+    "triggerPhrases": [
+      "generate a technical query",
+      "raise a technical query",
+      "create a TQ",
+      "draft a technical query",
+      "I need to raise a deviation",
+      "log a query against the specification"
+    ],
+    "slots": [
+      { "name": "project", "displayName": "Project", "type": "string", "required": true, "prompt": "Which project is this technical query for?", "formField": "Project" },
+      { "name": "tqNo", "displayName": "TQ No", "type": "string", "required": false, "prompt": "TQ number (leave blank to be assigned on registration).", "formField": "TQ No" },
+      { "name": "projectNo", "displayName": "Project No", "type": "string", "required": false, "prompt": "Project number?", "formField": "Project No" },
+      { "name": "date", "displayName": "Date", "type": "date", "required": true, "prompt": "Date of the query?", "formField": "Date" },
+      { "name": "originatorsName", "displayName": "Originators Name", "type": "string", "required": true, "prompt": "Your name (originator)?", "formField": "Originators Name" },
+      { "name": "answerBy", "displayName": "Answer by", "type": "choice", "choices": ["Immediate", "24 hrs", "1 week"], "required": true, "prompt": "How soon do you need an answer: Immediate, 24 hrs, or 1 week?", "formField": "Answer by (Immediate / 24 hrs / 1 week)" },
+      { "name": "originatorCompanyDept", "displayName": "Originator's Company/Dept", "type": "string", "required": true, "prompt": "Your company / department?", "formField": "Originator's Company/Dept" },
+      { "name": "recipient", "displayName": "Recipient", "type": "string", "required": true, "prompt": "Who should receive this query?", "formField": "Recipient" },
+      { "name": "titleOfQuery", "displayName": "Title of Query", "type": "string", "required": true, "prompt": "Short title for the query?", "formField": "Title of Query" },
+      { "name": "areaAffected", "displayName": "Area Affected", "type": "string", "required": true, "prompt": "Which area is affected?", "formField": "Area Affected" },
+      { "name": "documentsDrawingsAffected", "displayName": "Documents/Drawings Affected", "type": "string", "required": false, "prompt": "Which documents or drawings are affected?", "formField": "Documents/Drawings Affected" },
+      { "name": "queryDescription", "displayName": "Query Description", "type": "string", "required": true, "prompt": "Describe the query in full.", "formField": "Query Description" },
+      { "name": "isDeviation", "displayName": "Is this a deviation from the specification?", "type": "choice", "choices": ["Yes", "No"], "required": true, "prompt": "Does this query propose a deviation from JEM-GEN-SPC-M-014?" }
+    ],
+    "groundingAction": {
+      "type": "corpus-knowledge-retrieval",
+      "corpus": "JEM-GEN-SPC-M-014",
+      "reuseTopic": "ask-engineering-question",
+      "description": "Optionally reuse ask-engineering-question grounding to attach a grounded draft response to the query, with rule_id + clause citations. If nothing grounds, leave the response for the engineer and say so; do not fabricate.",
+      "sources": [
+        { "path": "knowledge/jem-gen-spc-m-014/atoms/jem-gen-spc-m-014.atoms.jsonl", "role": "primary" },
+        { "path": "knowledge/jem-gen-spc-m-014/clauses/*.md", "role": "context" }
+      ],
+      "deviationRule": {
+        "appliesWhen": "isDeviation == 'Yes'",
+        "rule_id": "JEM-GEN-SPC-M-014:2.3:R01",
+        "clause": "2.3",
+        "clause_title": "Deviation of Works",
+        "modality": "shall",
+        "approval_class": "C",
+        "approval_class_meaning": "typically N/A unless conditions vary",
+        "cross_references": ["Appendix A"],
+        "statement": "Per Clause 2.3 (rule_id JEM-GEN-SPC-M-014:2.3:R01), deviation of the Works is to be authorised in writing via the Technical Query (TQ) form; this query is the written authorisation path. Appendix F approval class for Clause 2.3 is C (typically N/A unless conditions vary)."
+      }
+    },
+    "writeAction": {
+      "type": "generate-draft-deliverable",
+      "deliverable": "Technical Query (ES.DEG.FORM.009 Rev A)",
+      "status": "Draft",
+      "draftMarker": "DRAFT — pending engineering review",
+      "draftMarkerSource": "knowledge/jem-gen-spc-m-014/manifest.json#draft_marker",
+      "humanInTheLoop": "The generated Technical Query is a DRAFT pending engineering review. It must carry the draftMarker verbatim and status Draft until a qualified engineer signs off.",
+      "output": {
+        "header": {
+          "Project": "{project}",
+          "TQ No": "{tqNo}",
+          "Project No": "{projectNo}",
+          "Date": "{date}",
+          "Originators Name": "{originatorsName}",
+          "Answer by (Immediate / 24 hrs / 1 week)": "{answerBy}",
+          "Originator's Company/Dept": "{originatorCompanyDept}",
+          "Recipient": "{recipient}",
+          "Title of Query": "{titleOfQuery}",
+          "Area Affected": "{areaAffected}",
+          "Documents/Drawings Affected": "{documentsDrawingsAffected}"
+        },
+        "query": {
+          "Query Description": "{queryDescription}",
+          "Originator": "{originatorsName}",
+          "Date": "{date}"
+        },
+        "deviationNote": "Included only when isDeviation == 'Yes': the Clause 2.3 deviation statement from groundingAction.deviationRule.",
+        "groundedDraftResponse": {
+          "description": "Optional. If ask-engineering-question grounding returns atoms relevant to the query, attach a draft response that quotes rule_text verbatim and cites each atom as 'JEM-GEN-SPC-M-014 Clause {clause} (rule_id {rule_id})'. If nothing grounds, leave the answer section blank for the engineer and state that no governing atom was found; do not fabricate.",
+          "citations": {
+            "type": "array",
+            "required": false,
+            "itemFields": [
+              { "name": "rule_id", "type": "string" },
+              { "name": "clause", "type": "string" },
+              { "name": "clause_title", "type": "string" },
+              { "name": "source_page", "type": "integer" }
+            ]
+          }
+        }
+      }
+    },
+    "guardrails": {
+      "humanInTheLoop": "Output is a DRAFT carrying 'DRAFT — pending engineering review' and status Draft; a qualified engineer reviews and signs off.",
+      "noFabrication": "Do not invent clause numbers, limits, or acceptance criteria in the drafted response. If nothing grounds, say so and leave the answer for the engineer.",
+      "copyrightedStandardsPointerOnly": "External standards named in atom references[] are pointers only; name them, never reproduce their text.",
+      "assetDistinction": "Keep AS 2885 (transmission) and AS/NZS 4645 (distribution) distinct; this corpus is Jemena shop-fabrication scope."
+    }
+  }
+}

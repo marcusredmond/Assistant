@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "schemaId": "factory-commissioning-acceptance-test-record",
+  "title": "Factory/Commissioning Acceptance Test Record (Appendix E) — Trunk and Primary Regulating Stations",
+  "formNumber": "JAM-GEN-FM-M-003",
+  "sourceDoc": "JEM-GEN-SPC-M-014",
+  "status": "Draft",
+  "revision": "Rev 0",
+  "draftMarkerGuidance": "DRAFT — pending engineering review",
+  "fields": {
+    "header": [
+      "Project No",
+      "Date of Test",
+      "Site",
+      "Serial Numbers (Run 1)",
+      "Serial Numbers (Run 2)"
+    ],
+    "equipment": [
+      "Regulators (Active)",
+      "Regulators (Monitor)",
+      "Pilots (1st Stage)",
+      "Pilots (Monitor Override)",
+      "Pilots (Active)",
+      "Filter",
+      "Slam Shuts",
+      "Outlet Relief Valves"
+    ],
+    "setpointChecks": {
+      "columns": [
+        "P&ID Setpoint kPa",
+        "Actual Setpoint Achieved",
+        "Comments"
+      ],
+      "runs": [
+        "RUN 1",
+        "RUN 2"
+      ],
+      "rows": [
+        "Active Control Pilot Setting",
+        "1st Stage Pilot Setting",
+        "2nd Stage Cut Setting",
+        "Monitor Override Pilot Setting",
+        "Active Regulator Lock Up",
+        "Monitor Regulator Lock Up",
+        "Slamshut Setting",
+        "Relief Valve Setting"
+      ]
+    },
+    "finalStatus": [
+      "Skid commissioning complete",
+      "Positive nitrogen pressure 30 kPa",
+      "Inlet/outlet blank flanged"
+    ],
+    "witnessVerification": {
+      "roles": [
+        "Verified by Supv/Subcontractor",
+        "Verified by Project",
+        "Reviewed by QA/QC Ind./Third Party"
+      ],
+      "columns": [
+        "Print Name",
+        "Organisation",
+        "Date"
+      ]
+    }
+  }
+}

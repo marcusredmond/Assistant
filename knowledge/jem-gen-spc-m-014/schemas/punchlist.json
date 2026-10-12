@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "schemaId": "punchlist",
+  "title": "Punchlist Template (Appendix D)",
+  "formNumber": "JAM-GEN-FM-M-002",
+  "sourceDoc": "JEM-GEN-SPC-M-014",
+  "status": "Draft",
+  "revision": "Rev 0",
+  "draftMarkerGuidance": "DRAFT — pending engineering review",
+  "fields": {
+    "header": [
+      "Project No",
+      "Site",
+      "Inspection Date",
+      "Inspector Name",
+      "Contractor Name",
+      "Jemena Specification / reference drawings"
+    ],
+    "tables": [
+      {
+        "name": "Nonconformances recorded on Mechanical Inspection Record",
+        "columns": [
+          "Item No",
+          "Description of Defect",
+          "Defect Rectified (Signature)",
+          "Date"
+        ]
+      },
+      {
+        "name": "Other nonconformances identified by Jemena",
+        "columns": [
+          "Item No",
+          "Description of Defect",
+          "Defect Rectified (Signature)",
+          "Date"
+        ]
+      }
+    ]
+  }
+}

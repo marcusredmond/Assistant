@@ -1,0 +1,319 @@
+{
+  "doc_id": "JEM-GEN-SPC-M-014",
+  "status": "Draft",
+  "note": "Reference register for JEM-GEN-SPC-M-014. Copyrighted external standards (AS/ASME/AWS/API/EN/ASTM) are pointers/titles only; their body text is never reproduced. JEM-/GAS-/GTS- documents are Jemena-owned.",
+  "references": [
+    {
+      "ref_id": "API 6D",
+      "title": null,
+      "issuer": "API",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "API RP 582",
+      "title": null,
+      "issuer": "API",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "API RP 686",
+      "title": null,
+      "issuer": "API",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 1200",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 1627",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 1796",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 2177",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 2312",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 2700",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 2885",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 2885.2",
+      "title": "Distance between welds",
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 3750",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 3892",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 3894",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 3920",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 3990",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 4037",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 4041",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 4100",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 4343",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 4458",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 4680",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 4792",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS 4822",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS/NZS 1518",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS/NZS 1554",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS/NZS 3862",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS/NZS 3992",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AS/NZS ISO 9001",
+      "title": null,
+      "issuer": "AS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "ASME B1.20.1",
+      "title": null,
+      "issuer": "ASME",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "ASME B16.11",
+      "title": null,
+      "issuer": "ASME",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "ASME B16.20",
+      "title": null,
+      "issuer": "ASME",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "ASME B16.25",
+      "title": null,
+      "issuer": "ASME",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "ASME B16.5",
+      "title": null,
+      "issuer": "ASME",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "ASME B16.9",
+      "title": null,
+      "issuer": "ASME",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "ASME IX",
+      "title": null,
+      "issuer": "ASME",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "ASME V",
+      "title": null,
+      "issuer": "ASME",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "ASTM A106 Gr. B",
+      "title": null,
+      "issuer": "ASTM",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AWS A4.3",
+      "title": null,
+      "issuer": "AWS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AWS A5.1",
+      "title": null,
+      "issuer": "AWS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AWS A5.17",
+      "title": null,
+      "issuer": "AWS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AWS A5.18",
+      "title": null,
+      "issuer": "AWS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AWS A5.20",
+      "title": null,
+      "issuer": "AWS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AWS A5.23",
+      "title": null,
+      "issuer": "AWS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AWS A5.29",
+      "title": null,
+      "issuer": "AWS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AWS A5.5",
+      "title": null,
+      "issuer": "AWS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "AWS A5.9",
+      "title": null,
+      "issuer": "AWS",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "EN 10204",
+      "title": null,
+      "issuer": "EN",
+      "licensing": "copyrighted_external"
+    },
+    {
+      "ref_id": "GAS-980-PR-ME-003",
+      "title": "Bolt Torque & Tensioning Procedure",
+      "issuer": "Jemena",
+      "licensing": "jemena_owned"
+    },
+    {
+      "ref_id": "GTS-960-SP-ME-001",
+      "title": "external coating",
+      "issuer": "Jemena",
+      "licensing": "jemena_owned"
+    },
+    {
+      "ref_id": "GTS-960-SP-ME-010",
+      "title": "valve installation",
+      "issuer": "Jemena",
+      "licensing": "jemena_owned"
+    },
+    {
+      "ref_id": "JEM-GEN-SPC-M-014",
+      "title": "Piping and Mechanical Equipment – Shop Fabrication Specification For Facilities",
+      "issuer": "Jemena",
+      "licensing": "jemena_owned"
+    }
+  ]
+}

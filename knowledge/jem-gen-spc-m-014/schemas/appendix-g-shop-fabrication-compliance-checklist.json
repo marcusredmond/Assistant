@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "schemaId": "appendix-g-shop-fabrication-compliance-checklist",
+  "title": "Shop Fabrication Compliance Checklist (Appendix G)",
+  "formNumber": "Appendix G",
+  "sourceDoc": "JEM-GEN-SPC-M-014",
+  "status": "Draft",
+  "fields": {
+    "header": [
+      "Project Name",
+      "Contractor",
+      "Fabrication Sub-contractor",
+      "Date of contract commencement",
+      "Jemena Project Manager",
+      "Jemena Quality Manager"
+    ],
+    "tableColumns": [
+      "Clause(s)",
+      "Items requiring evidence",
+      "Document #",
+      "Checked by"
+    ],
+    "rows": [
+      {
+        "clauses": "3.1",
+        "item": "Fabricator's CQS"
+      },
+      {
+        "clauses": "3.1",
+        "item": "External inspection body (if no CQS)"
+      },
+      {
+        "clauses": "3.1",
+        "item": "ITP"
+      },
+      {
+        "clauses": "3.2 & 11.2",
+        "item": "Material Control Procedure",
+        "subItems": [
+          "Goods receipt",
+          "Traceability of sub-contractors' material",
+          "Marking and identification",
+          "Handling",
+          "Storage incl quarantine",
+          "Packing and transport"
+        ]
+      },
+      {
+        "clauses": "5.4.2",
+        "item": "Bolt torque procedure"
+      },
+      {
+        "clauses": "6.1",
+        "item": "Welding WPS"
+      },
+      {
+        "clauses": "6.1",
+        "item": "Welding WPQR"
+      },
+      {
+        "clauses": "7.3.1",
+        "item": "Weld Sentencing report"
+      },
+      {
+        "clauses": "8.2",
+        "item": "Testing procedure"
+      },
+      {
+        "clauses": "8.3",
+        "item": "Drying procedure"
+      },
+      {
+        "clauses": "9",
+        "item": "Coating Inspection report AS2312/3894.10"
+      },
+      {
+        "clauses": "10.4",
+        "item": "MDR"
+      }
+    ]
+  }
+}
