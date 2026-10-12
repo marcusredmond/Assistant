@@ -26,7 +26,7 @@ without re-interpreting the source PDF each time.
 | Matrices | [`../../knowledge/jem-gen-spc-m-014/matrices/`](../../knowledge/jem-gen-spc-m-014/matrices/) | Appendix F RTM + legend, reference register. |
 | Template schemas | [`../../knowledge/jem-gen-spc-m-014/schemas/`](../../knowledge/jem-gen-spc-m-014/schemas/) | Field structure of the five spec forms. |
 | Manifest | [`../../knowledge/jem-gen-spc-m-014/manifest.json`](../../knowledge/jem-gen-spc-m-014/manifest.json) | Document identity, counts, join rule, provenance. |
-| tech-query Copilot agent | EKA program (`eka-foundation` branch) | Consumes atoms as a grounding source; cites `rule_id` / clause. |
+| tech-query Copilot agent | [`../../agents/tech-query/agent-design.md`](../../agents/tech-query/agent-design.md) | Consumes atoms as a grounding source; cites `rule_id` / clause. |
 | ITP generator | EKA program (`eka-foundation` branch) | Consumes hold/witness points and approval classes. |
 | Information architecture | EKA program (`eka-foundation` branch) | Content types / metadata the corpus maps to. |
 
@@ -278,14 +278,18 @@ reproduced standard bodies.
   "`JEM-GEN-SPC-M-014:5.2.2:R02`, Clause 5.2.2") rather than a whole-document citation.
   Modality, `approval_class` and `references` let it surface whether a requirement is
   mandatory, needs Jemena approval, or points to an external standard the user must
-  consult directly.
+  consult directly. The agent design is delivered in this repository at
+  [`../../agents/tech-query/agent-design.md`](../../agents/tech-query/agent-design.md)
+  (two importable topics plus a `rule_id` citation validator under
+  [`../../prototypes/tech-query/`](../../prototypes/tech-query/)).
 - **ITP generator.** The ITP generator consumes `hold_witness_point` atoms (Clause 3.1
   HOLD / WITNESS points) and `approval_class` to seed inspection-and-test-plan line
   items and approval gates, keeping the generated ITP traceable to the specification
   clauses.
 
-Both consumers are part of the EKA program and are delivered via the
-`eka-foundation` branch; they are named here by role.
+Both consumers are part of the EKA program. The tech-query agent is delivered in this
+repository (linked above); the ITP generator is delivered via the `eka-foundation`
+branch and is named here by role.
 
 ## 8. Known source anomalies
 

@@ -213,7 +213,113 @@ DELIVERABLES ARE DRAFTS
 
 ---
 
-## 8. Related artifacts and deferrals
+## 8. Worked examples
+
+These examples show the exact grounded output the agent is expected to produce. Every
+value, clause number, modality and quoted `rule_text` below is copied **verbatim** from
+the atom corpus (`knowledge/jem-gen-spc-m-014/atoms/jem-gen-spc-m-014.atoms.jsonl`); none
+is paraphrased or invented. The automated check
+[`prototypes/tech-query/validate_citations.py`](../../prototypes/tech-query/validate_citations.py)
+asserts that every `rule_id` cited in this document exists in the corpus.
+
+### 8.1 Engineering question (ask-engineering-question)
+
+**User:** "What is the maximum interpass temperature for carbon steel?"
+
+**Grounded answer:**
+
+> Temperature is measured on the opposite face or after waiting 1 min/25 mm; heaters are
+> allowed; no cutting-torch preheat; maximum interpass is 300°C for carbon steels.
+>
+> **Source:** JEM-GEN-SPC-M-014 Clause 6.5.7 (rule_id JEM-GEN-SPC-M-014:6.5.7:R02)
+> — *Preheat and Interpass Temperatures*, source page 27.
+> **Modality:** `shall` (mandatory requirement).
+> **Approval:** no Appendix F approval class applies (`approval_class` is null;
+> `approval_required` is false).
+
+Notes on why the answer looks like this:
+
+- The limit `300°C` is quoted exactly as it appears in the atom's `rule_text`, including
+  the degree symbol encoding used in the corpus; it is never converted or rounded.
+- The citation uses the exact form `JEM-GEN-SPC-M-014 Clause 6.5.7 (rule_id
+  JEM-GEN-SPC-M-014:6.5.7:R02)`.
+- Modality `shall` is surfaced so the engineer knows the obligation is mandatory.
+- No approval line beyond the "none applies" note, because `approval_required` is false
+  for this atom; no hold/witness line, because `hold_witness_point` is false; no
+  cross-references or referenced standards, because those arrays are empty for this atom.
+
+### 8.2 Deviation / technical-query path (generate-technical-query)
+
+**User:** "I need to raise a deviation from the specification."
+
+**Grounded deviation note attached to the DRAFT Technical Query:**
+
+> Deviation of the Works is to be authorised in writing via the Technical Query (TQ) form.
+>
+> **Source:** JEM-GEN-SPC-M-014 Clause 2.3 (rule_id JEM-GEN-SPC-M-014:2.3:R01)
+> — *Deviation of Works*, source page 4.
+> **Modality:** `shall` (mandatory requirement).
+> **Approval:** Appendix F approval class `C` — typically N/A unless conditions vary
+> (`approval_required` is true).
+> **Cross-references:** Appendix A.
+
+The generated Technical Query itself is produced on the Jemena TQ form (ES.DEG.FORM.009
+Rev A) and carries the verbatim marker `DRAFT — pending engineering review` and status
+`Draft` until a qualified engineer reviews and signs off. The agent fills the form fields
+it collected; it does not invent a determination of the deviation.
+
+---
+
+## 9. Deployment / import note (tenant administrator)
+
+> **This sandbox did NOT and CANNOT deploy to a Power Platform tenant.** The sandbox is a
+> network-restricted Linux/Git environment with no connection to any Microsoft 365 or
+> Power Platform tenant. Everything under `agents/tech-query/` is a **declarative design
+> definition** intended for a tenant administrator to recreate/import by hand. All
+> site/library/environment GUIDs and connection references in the topic JSON are
+> **placeholders bound at import time**.
+
+A tenant administrator deploys this agent as follows.
+
+1. **Publish the grounding corpus.** Make the atom corpus available in the tenant as a
+   knowledge source, using whichever pattern suits the tenant:
+   - **File knowledge (recommended).** Create a dedicated SharePoint document library
+     (for example `JEM-GEN-SPC-M-014`) and upload the clause mirrors
+     (`knowledge/jem-gen-spc-m-014/clauses/*.md`) and the atoms JSONL
+     (`knowledge/jem-gen-spc-m-014/atoms/jem-gen-spc-m-014.atoms.jsonl`). Also publish
+     `manifest.json`, `matrices/appendix-f-legend.md` and
+     `schemas/technical-query-form.json` for reference.
+   - **Dataverse rows.** Alternatively load each atom (one JSONL line) as one row in a
+     Dataverse table whose columns match the atom schema, so retrieval resolves to a
+     single `rule_id`.
+   - **Copilot Studio file knowledge.** Alternatively attach the clause markdown and the
+     atoms JSONL directly as files on the agent's knowledge source.
+2. **Create the Copilot Studio agent and attach the knowledge source.** Create a new
+   agent, paste the governing instruction block from section 7 as the agent instructions,
+   add the conversation starters from section 6, and attach the knowledge source from step
+   1 as the agent's grounding source. Confirm retrieval resolves to individual atoms (not
+   whole clauses).
+3. **Import / recreate the two topics.** Recreate the two topics from their JSON designs,
+   binding the placeholder GUIDs and connection references to real tenant values:
+   - [`topics/ask-engineering-question.json`](topics/ask-engineering-question.json) — the
+     grounded Q&A topic. Bind its `groundingAction` sources to the knowledge source from
+     step 1 and map the answer template / citation fields.
+   - [`topics/generate-technical-query.json`](topics/generate-technical-query.json) — the
+     TQ generator. Bind its `formSchema` to the ES.DEG.FORM.009 Rev A form, wire the
+     write action that emits the DRAFT deliverable, and preserve the verbatim marker
+     `DRAFT — pending engineering review`.
+   The `$schema` URLs in the topic JSON are placeholders; replace them with the tenant's
+   real topic schema if one is used, or treat the JSON as a specification to re-author the
+   topics in the maker experience.
+4. **Confirm human-in-the-loop review.** Before the agent is used for real work, confirm
+   that a **qualified engineer reviews all agent outputs** — grounded answers and, in
+   particular, every generated Technical Query — before they are relied upon. Generated
+   Technical Queries remain DRAFTS carrying `DRAFT — pending engineering review` and status
+   `Draft` until that sign-off occurs.
+
+---
+
+## 10. Related artifacts and deferrals
 
 - Topic designs: [`topics/ask-engineering-question.json`](topics/ask-engineering-question.json),
   [`topics/generate-technical-query.json`](topics/generate-technical-query.json).
