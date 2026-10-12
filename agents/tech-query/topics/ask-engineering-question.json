@@ -1,0 +1,99 @@
+{
+  "$schema": "https://example.org/eka/copilot-topic.schema.json",
+  "topic": {
+    "name": "ask-engineering-question",
+    "displayName": "Ask an engineering question",
+    "capability": "tech-query",
+    "version": "0.2.0",
+    "status": "Draft",
+    "description": "Document-grounded engineering Q&A for JEM-GEN-SPC-M-014 (version 4) shop fabrication. Returns an answer built ONLY from the atomised corpus, quoting the governing rule_text verbatim and citing rule_id + clause for every claim. States uncertainty and defers to the responsible engineer rather than guessing. Tenant-neutral declarative design; knowledge-source bindings are placeholders bound on import.",
+    "triggerPhrases": [
+      "ask an engineering question",
+      "what does JEM-GEN-SPC-M-014 say about",
+      "what does the specification require for",
+      "what is the requirement for",
+      "is this compliant with the specification",
+      "look this up in the spec",
+      "technical question"
+    ],
+    "slots": [
+      {
+        "name": "question",
+        "displayName": "Question",
+        "type": "string",
+        "required": true,
+        "prompt": "What is your engineering question about JEM-GEN-SPC-M-014?"
+      },
+      {
+        "name": "assetType",
+        "displayName": "Asset type",
+        "type": "choice",
+        "choices": ["Transmission", "Distribution", "Not asset-specific"],
+        "required": false,
+        "prompt": "Does this relate to a transmission (AS 2885) or distribution (AS/NZS 4645) asset, or is it not asset-specific?",
+        "note": "Do not blend AS2885 (transmission) and AS/NZS 4645 (distribution). This corpus is Jemena shop-fabrication scope; if a question needs a transmission or distribution network answer that is not in the corpus, say so and defer. If asset type is ambiguous and would change the answer, ask the user to confirm before answering."
+      }
+    ],
+    "groundingAction": {
+      "type": "corpus-knowledge-retrieval",
+      "corpus": "JEM-GEN-SPC-M-014",
+      "sources": [
+        {
+          "path": "knowledge/jem-gen-spc-m-014/atoms/jem-gen-spc-m-014.atoms.jsonl",
+          "role": "primary",
+          "description": "192 atoms, one obligation per line. The retrieval and citation unit."
+        },
+        {
+          "path": "knowledge/jem-gen-spc-m-014/clauses/*.md",
+          "role": "context",
+          "description": "78 per-clause markdown mirrors (YAML front-matter + verbatim body) for human-readable context."
+        }
+      ],
+      "retrievalRules": [
+        "Match the question against atom fields clause, clause_title, rule_text, and applies_to.",
+        "Return individual atoms (one obligation each); do NOT return or merge whole clauses.",
+        "Answer ONLY from the retrieved atoms. Do not answer from prior knowledge or memory.",
+        "Never invent or paraphrase clause numbers, acceptance criteria, limits, or requirements.",
+        "Reproduce rule_text verbatim, including units and symbols (e.g. 300°C); never convert values.",
+        "Copyrighted external standards named in references[] (AS / ASME / AWS / API / EN) are pointers only: you may name them, never reproduce their text."
+      ]
+    },
+    "output": {
+      "answerTemplate": {
+        "format": "For each governing atom: quote rule_text verbatim, then append the citation and the surfaced metadata.",
+        "pattern": "{rule_text}\n\nSource: JEM-GEN-SPC-M-014 Clause {clause} (rule_id {rule_id})\nModality: {modality} ({modality_meaning})\nQuantitative limit: {value} {unit} (only when the atom carries value/unit; otherwise take any limit verbatim from rule_text)\nApproval: {approval_class} - {approval_class_meaning} (include ONLY when approval_required is true)\nHold/Witness point: yes (include ONLY when hold_witness_point is true)\nCross-references: {cross_references}\nReferenced standards (pointers only, do not reproduce text): {references}",
+        "rules": [
+          "Modality meaning: shall = mandatory; should = recommended; may = permitted; not_permitted / prohibited = disallowed; informational = context only.",
+          "Approval class meaning: A = mandatory Jemena approval; B = subject to variation at Jemena discretion; C = typically N/A unless conditions vary.",
+          "Omit the Approval line unless approval_required is true. Omit the Hold/Witness line unless hold_witness_point is true. Omit Cross-references / Referenced standards lines when the respective arrays are empty."
+        ]
+      },
+      "citations": {
+        "type": "array",
+        "required": true,
+        "minItems": 1,
+        "description": "One entry per atom used in the answer. Required: at least one atom must support the answer, otherwise fall through to uncertaintyFallback.",
+        "itemFields": [
+          { "name": "rule_id", "type": "string", "required": true, "description": "e.g. JEM-GEN-SPC-M-014:6.5.7:R02" },
+          { "name": "clause", "type": "string", "required": true, "description": "e.g. 6.5.7" },
+          { "name": "clause_title", "type": "string", "required": true, "description": "e.g. Preheat and Interpass Temperatures" },
+          { "name": "doc_id", "type": "string", "required": true, "description": "JEM-GEN-SPC-M-014" },
+          { "name": "doc_version", "type": "string", "required": true, "description": "4" },
+          { "name": "source_page", "type": "integer", "required": true, "description": "Page in the source specification for the atom." }
+        ]
+      },
+      "uncertaintyFallback": {
+        "whenRetrievalEmptyOrWeak": true,
+        "noFabrication": true,
+        "behaviour": "State plainly that the JEM-GEN-SPC-M-014 corpus does not contain a governing obligation for the question as asked. Defer to the responsible engineer and to the authoritative JEM-GEN-SPC-M-014 document. Do not guess, interpolate, or fabricate a clause number, limit, or acceptance criterion.",
+        "assetTypeAmbiguityBehaviour": "If the question appears to mix or not specify Transmission (AS 2885) vs Distribution (AS/NZS 4645) and that would change the answer, ask the user to confirm asset type before answering."
+      }
+    },
+    "guardrails": {
+      "noFabrication": "Never invent or paraphrase clause numbers, limits, or acceptance criteria. If it is not in a retrieved atom, it is not stated.",
+      "assetDistinction": "Keep AS 2885 (transmission) and AS/NZS 4645 (distribution) distinct; never blend them. This corpus is Jemena shop-fabrication scope.",
+      "copyrightedStandardsPointerOnly": "External standards (AS / ASME / AWS / API / EN) appear in an atom's references[] as pointers. Name them (e.g. 'see AS 4041'); never reproduce their text.",
+      "uncertaintyDeferral": "When uncertain, state the uncertainty, name the authoritative JEM-GEN-SPC-M-014 document, and defer to the responsible engineer. Do not guess."
+    }
+  }
+}
