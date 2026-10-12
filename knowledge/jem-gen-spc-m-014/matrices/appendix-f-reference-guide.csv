@@ -1,0 +1,56 @@
+clause,requirement_description,class
+2.3,Deviation from Specification,C
+2.4,Conflicting requirements in provided documents,C
+3.1,ISO 9001 accreditation or advise lack thereof,A
+3.1,Quality Plan,A
+3.1,ITP,A
+3.1,inspection and test procedures for all major components,A
+3.2,material control procedure(s),A
+3.3.2,traceability record system,A
+3.3.2,Transfer of markings to traceability records,C
+3.3.3,As-Built drawings,A
+4.1,Attachments welded directly to pipework of differing material to parent pipe material,C
+4.2,Use of alternative welding consumables to those specified,B
+5.1,Confirmation of Field Fit Weld locations,B
+5.3,approval prior to PWHT for stress reduction,C
+5.3,PWHT procedure for approval,A
+5.4.1,Variations from Jemena issued drawings,A
+5.4.2,bolt torque and tensioning procedure for approval,A
+5.4.2,Use of lubricant for bolting material storage,C
+5.4.7,Discrepancies between materials/fittings specified and provided as free issue,C
+6.1,Acceptance of previously qualified welding procedures,B
+6.1,WPS and WPQR for approval,A
+6.2,Use of GMAW or FCAW,B
+6.2,Use of unlisted welding processes,B
+6.3,plan for weld procedure qualification,A
+6.3,Approval of WPS prior to weld procedure qualification,A
+6.3.1,Calibration certificates of measurement equipment required prior to WPQT,A
+6.3.1,Test welds shall be cleared by NDE,A
+6.3.3,WPQR data and test results and final WPS's for approval,A
+6.4,welder qualification test results for review,A
+6.5.9,Radiograph of socket/fillet welds,B
+7.1,NDE schedule for approval,A
+7.1,notify Jemena prior to all NDE testing,A
+7.2,All instances of cracked welds shall be reported,C
+7.3.1,NDE records,A
+7.3.1,Qualifications of NDE personnel to be acceptable to Jemena,A
+7.3.1,weld maps with sentencing of all welds,A
+7.3.1,documentation for tracking welding completion and repairs,A
+7.3.2,Ultrasonic examination may be applied instead of radiographic examination,B
+7.3.2,Alternatives to radiographic examination to be approved by Jemena,B
+7.3.4,ultrasonic testing procedure,A
+7.3.7,NDE test reports to be submitted to Jemena,A
+7.4.1,Repair due to lack of wall thickness,C
+7.4.1,Jemena to witness testing after arc burn repair,C
+8.1,Pressure testing and cleaning of piping to be witnessed by Jemena,A
+8.1,notify Jemena prior to all pressure testing/cleaning,A
+8.2,Welds shall be unpainted for hydrotest unless approved by Jemena,B
+8.2,hydrotest procedures,A
+8.2,Jemena to approve repairs after hydrotest,A
+8.4,Pneumatic testing to be witnessed by Jemena,A
+9,Surface preparation and coating to be witnessed by Jemena,A
+10,notify Jemena skid ready for Mechanical Inspection,A
+10.4,MDR,A
+11.1,storage and handling procedure,A
+11.1,Damage to materials/equipment during handling or installation,C
+11.2,preservation and protection procedure,A

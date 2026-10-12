@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "schemaId": "mechanical-inspection-record",
+  "title": "Mechanical Inspection Record (Appendix C)",
+  "formNumber": "JAM-GEN-FM-M-001",
+  "sourceDoc": "JEM-GEN-SPC-M-014",
+  "status": "Draft",
+  "revision": "Rev 0",
+  "draftMarkerGuidance": "DRAFT — pending engineering review",
+  "fields": {
+    "header": [
+      "Project No",
+      "Site",
+      "Inspection Date",
+      "Inspector Name",
+      "Contractor Name",
+      "Jemena Specification / reference drawings"
+    ],
+    "itemResponseOptions": [
+      "Yes",
+      "No",
+      "N/A",
+      "Comments"
+    ],
+    "itemGroups": [
+      {
+        "group": "1 Filters",
+        "items": [
+          "1.1",
+          "1.2",
+          "1.3",
+          "1.4"
+        ]
+      },
+      {
+        "group": "2 Regulators",
+        "items": [
+          "2.1",
+          "2.2"
+        ]
+      },
+      {
+        "group": "3 Pilots",
+        "items": [
+          "3.1",
+          "3.2",
+          "3.3"
+        ]
+      },
+      {
+        "group": "4 Relief valves",
+        "items": [
+          "4.1",
+          "4.2",
+          "4.3",
+          "4.4",
+          "4.5"
+        ]
+      },
+      {
+        "group": "5 Valves",
+        "items": [
+          "5.1",
+          "5.2",
+          "5.3",
+          "5.4",
+          "5.5",
+          "5.6"
+        ]
+      },
+      {
+        "group": "6 Non Return Valves",
+        "items": [
+          "6.1",
+          "6.2"
+        ]
+      },
+      {
+        "group": "7 Pipe Work",
+        "items": [
+          "7.1",
+          "7.2",
+          "7.3",
+          "7.4"
+        ]
+      },
+      {
+        "group": "8 Small Bore Pipe Work",
+        "items": [
+          "8.1",
+          "8.2",
+          "8.3"
+        ]
+      },
+      {
+        "group": "9 Pressure Gauges",
+        "items": [
+          "9.1",
+          "9.2"
+        ]
+      },
+      {
+        "group": "10 Electrical/Instrumentation",
+        "items": [
+          "10.1",
+          "10.2",
+          "10.3"
+        ]
+      },
+      {
+        "group": "11 Paint Work",
+        "items": [
+          "11.1",
+          "11.2"
+        ]
+      },
+      {
+        "group": "12 Skid",
+        "items": [
+          "12.1",
+          "12.2"
+        ]
+      },
+      {
+        "group": "13 Tagging",
+        "items": [
+          "13.1",
+          "13.2"
+        ]
+      }
+    ],
+    "signoff": [
+      "Inspector's Signature"
+    ]
+  }
+}

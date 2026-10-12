@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "schemaId": "technical-query-form",
+  "title": "Technical Query Form (Appendix A)",
+  "formNumber": "ES.DEG.FORM.009",
+  "sourceDoc": "JEM-GEN-SPC-M-014",
+  "status": "Draft",
+  "revision": "Rev A",
+  "draftMarkerGuidance": "DRAFT — pending engineering review",
+  "fields": {
+    "header": [
+      "Project",
+      "TQ No",
+      "Project No",
+      "Date",
+      "Originators Name",
+      "Answer by (Immediate / 24 hrs / 1 week)",
+      "Originator's Company/Dept",
+      "Recipient",
+      "Title of Query",
+      "Area Affected",
+      "Documents/Drawings Affected"
+    ],
+    "query": [
+      "Query Description",
+      "Originator",
+      "Date"
+    ],
+    "review": [
+      "Reviewed by",
+      "Date"
+    ],
+    "answer": [
+      "Answer (Comment / Approval)",
+      "Recipient Signature",
+      "Date"
+    ],
+    "furtherAction": [
+      "Further Action (Yes/No)",
+      "Action Required",
+      "Originator Signature",
+      "Date"
+    ],
+    "variationControl": [
+      "Scope Change Required (Yes/No)",
+      "Change No",
+      "Project Manager Signature",
+      "Date"
+    ]
+  }
+}
