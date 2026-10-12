@@ -21,7 +21,20 @@ A second tab shows a read-only **Hold & witness / approvals checklist**: the
 inspection hold/witness-point obligations and the Appendix F approval-class
 obligations drawn verbatim from the corpus.
 
-## Run it (single command)
+## Two ways to run it
+
+### Option A — zero-setup, double-click (no Python, no server, no internet)
+
+Open **`tech-query-standalone.html`** by double-clicking it. It opens in your
+browser straight from the file system (`file://`). There is nothing to install,
+no server to start, and no internet connection required. The entire corpus is
+embedded in that one file and all retrieval runs in the browser.
+
+Use this if you are on a locked-down PC with no dev tools, or if you tried the
+server option and saw *"localhost refused to connect"* (that error means no
+server was running; this file needs no server at all).
+
+### Option B — run the local server (needs Python)
 
 ```
 cd prototypes/tech-query-app && python3 server.py
@@ -32,6 +45,26 @@ Then open **http://localhost:8000** in your browser.
 - Default port: **8000**. Override with `PORT=8080 python3 server.py` if 8000 is busy.
 - Stop with `Ctrl+C`.
 - Requires Python 3 only (tested on 3.11). No install step.
+
+> Both options use the identical deterministic retrieval, citation format, and
+> guardrails; only the delivery differs (one embeds the data and runs in the
+> browser, the other serves it from a local Python process).
+
+## Regenerating the standalone file
+
+`tech-query-standalone.html` is **generated**, not hand-written. It is produced
+from the committed corpus by a small stdlib script:
+
+```
+cd prototypes/tech-query-app && python3 build_standalone.py
+```
+
+The generator reads
+`knowledge/jem-gen-spc-m-014/atoms/jem-gen-spc-m-014.atoms.jsonl`, embeds all
+192 atoms into a `<script type="application/json" id="eka-atoms">` block, and
+writes the single HTML file. It is deterministic and idempotent (re-running
+produces byte-identical output), so the committed HTML stays in sync with the
+corpus and shows no spurious diff.
 
 ## How retrieval works (grounded + deterministic, not generative)
 
@@ -87,9 +120,11 @@ by clause then `rule_id`, so ordering is stable). Each returned answer renders:
 ## Offline / no-dependency guarantee
 
 - **Python standard library only.** No third-party packages, no `pip install`.
-- **No network, no CDNs.** The single `index.html` loads no external fonts,
-  scripts, or styles. The only URL printed is the `http://localhost` address of
-  this very server.
+  (The standalone file needs no Python at all once generated.)
+- **No network, no CDNs.** Neither the server UI nor the standalone file loads
+  any external fonts, scripts, or styles. The standalone file makes no network
+  calls whatsoever and runs with the network fully off; the only URL the server
+  prints is the `http://localhost` address of this very server.
 
 ## It does not deploy to Power Platform
 
@@ -104,17 +139,28 @@ lives under [`agents/tech-query/`](../../agents/tech-query/).
 cd prototypes/tech-query-app && python3 -m unittest
 ```
 
-The tests import the server module without binding a port and assert: the corpus
-loads to 192 atoms; `interpass` returns the `6.5.7:R02` atom as the top hit with
-`300°C` in its verbatim `rule_text` and the exact citation; `deviation` returns
-`2.3:R01` with `approval_class` `C` and `approval_required` true; a nonsense query
-returns no hits (the no-answer path); and every `rule_id` the search can return is
-a real corpus `rule_id`.
+This runs both suites:
+
+- `test_server.py` imports the server module without binding a port and asserts:
+  the corpus loads to 192 atoms; `interpass` returns the `6.5.7:R02` atom as the
+  top hit with `300°C` in its verbatim `rule_text` and the exact citation;
+  `deviation` returns `2.3:R01` with `approval_class` `C` and `approval_required`
+  true; a nonsense query returns no hits (the no-answer path); and every
+  `rule_id` the search can return is a real corpus `rule_id`.
+- `test_standalone.py` regenerates the standalone HTML and asserts: it embeds
+  exactly 192 atoms whose `rule_id`s round-trip to the JSONL corpus; it
+  references **no** external resources (no off-box `src`/`href`/`url()`, no CDN,
+  no `fetch(`/`XMLHttpRequest`); it carries the verbatim `DRAFT — pending
+  engineering review` marker and the exact citation format; it embeds the
+  `6.5.7:R02` atom with `300°C`; and the generator is idempotent.
 
 ## Files
 
 | File | Role |
 |---|---|
 | `server.py` | Stdlib HTTP server: loads the corpus, serves `index.html`, exposes `/api/search` and `/api/checklist`. Contains the pure, importable `load_atoms` / `search` functions and the inline UI. |
-| `test_server.py` | Stdlib `unittest` suite. |
+| `build_standalone.py` | Stdlib generator that embeds the 192-atom corpus into `tech-query-standalone.html`, reimplementing the identical retrieval/rendering in inline vanilla JS. Deterministic + idempotent. |
+| `tech-query-standalone.html` | **Generated.** The single, double-clickable, offline app. Embeds the corpus; no server, no Python, no internet. |
+| `test_server.py` | Stdlib `unittest` suite for the server. |
+| `test_standalone.py` | Stdlib `unittest` suite for the generated standalone file. |
 | `README.md` | This file. |
