@@ -65,7 +65,8 @@
         "rules": [
           "Modality meaning: shall = mandatory; should = recommended; may = permitted; not_permitted / prohibited = disallowed; informational = context only.",
           "Approval class meaning: A = mandatory Jemena approval; B = subject to variation at Jemena discretion; C = typically N/A unless conditions vary.",
-          "Omit the Approval line unless approval_required is true. Omit the Hold/Witness line unless hold_witness_point is true. Omit Cross-references / Referenced standards lines when the respective arrays are empty."
+          "Omit the Approval line unless approval_required is true. Omit the Hold/Witness line unless hold_witness_point is true. Omit Cross-references / Referenced standards lines when the respective arrays are empty.",
+          "In the current JEM-GEN-SPC-M-014 corpus every atom carries null value/unit (quantitative limits remain verbatim inside rule_text and are not yet lifted into structured fields - see docs/modules/spec-atomisation-design.md 3.2). The Quantitative limit line therefore always falls back to the limit as written in rule_text; omit the line entirely unless a future corpus populates value/unit. Do not synthesise a value/unit that is not present."
         ]
       },
       "citations": {

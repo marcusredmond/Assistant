@@ -9,10 +9,11 @@ so a document-grounded assistant can read, cite and reason over the requirements
 without re-interpreting the source PDF each time.
 
 > This design doc is part of the Engineering Knowledge Assistant (EKA) program.
-> The atomisation artifacts it describes live on the `atomise-jem-gen-spc-m-014`
-> branch. Some EKA artifacts referenced by role below (the tech-query Copilot
-> agent, the ITP generator, the information-architecture doc) are delivered on the
-> separate `eka-foundation` branch and are named rather than linked here.
+> The atomisation artifacts it describes, and the tech-query Copilot agent that
+> grounds on them, are delivered in this repository and linked below. Some other
+> EKA artifacts referenced by role (the ITP generator, the information-architecture
+> doc) are delivered on the separate `eka-foundation` branch and are named rather
+> than linked here.
 
 ## Dependencies
 
